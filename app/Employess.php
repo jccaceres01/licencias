@@ -1,0 +1,147 @@
+<?php
+
+namespace App;
+
+use Illuminate\Database\Eloquent\Model;
+
+class Employees extends Model
+{
+  protected $table = 'employees';
+
+  protected $fillable = [
+    'code',
+    'first_names',
+    'last_names',
+    'nickname',
+    'identify_document',
+    'birthdate',
+    'hiredate',
+    'gender',
+    'blood',
+    'address',
+    'email',
+    'phonenumber',
+    'cellphone',
+    'position',
+    'imgpath',
+    'drive_license',
+    'drive_license_category',
+    'drive_license_start',
+    'drive_license_end',
+    'drive_license_restriction',
+    'project_id',
+    'status',
+    'country_id'
+  ];
+
+  public static $gender = ['M', 'F'];
+  public static $blood = [
+    'O+',
+    'O-',
+    'A+',
+    'A-',
+    'B+',
+    'B-',
+    'AB+',
+    'AB-'
+  ];
+  public static $driveLicenseCategory = [
+    '01 Conductor',
+    '02 Conductor',
+    '03 Primera  Pesados',
+    '04 Segunda  Pesados',
+    '05 Especial'
+  ];
+  public static $status = ['activo', 'cacelado', 'parado'];
+
+  /**
+   * Project foreign key
+   */
+  public function project() {
+    return $this->hasOne('App\Projects', 'id', 'project_id');
+  }
+
+  /**
+   * Nationality, countries foreign key
+   */
+  public function country() {
+    return $this->hasOne('App\Countries', 'id', 'country_id');
+  }
+
+  /**
+   * Search query scope
+   */
+  public function scopeSearch($query, $criteria) {
+    if ($criteria != null) {
+      return $query->where('code', 'like', '%'.$criteria.'%')
+        ->orWhere('firstnames', 'like', '%'.$criteria.'%')
+        ->orWhere('lastnames', 'like', '%'.$criteria.'%')
+        ->orWhere('identify_document', 'like', '%'.$criteria.'%');
+    }
+  }
+
+  /**
+   * actives employees scope
+   */
+  public function scopeActive($query) {
+    return $query->where('status', 'activo');
+  }
+
+  /**
+   * parado employees scope
+   */
+  public function scopeStandby($query) {
+    return $query->where('status', 'parado');
+  }
+
+  /**
+   * Latam birthdate mutator
+   */
+  public function getLatamBirthdateAttribute() {
+    $birthdate = new \DateTime($this->attributes['birthdate']);
+    return $birthdate->format('d-m-Y');
+  }
+
+  /**
+   * Latam hiredate mutator
+   */
+  public function getLatamHiredateAttribute() {
+    $hiredate = new \DateTime($this->attributes['hiredate']);
+    return $hiredate->format('d-m-Y');
+  }
+
+  /**
+   * Latam drive license start mutator
+   */
+  public function getLatamDriveLicenseStartAttribute() {
+    $date = new \DateTime($this->attributes['drive_license_start']);
+    return $date->format('d-m-Y');
+  }
+
+  /**
+   * Latam drive license end mutator
+   */
+  public function getLatamDriveLicenseEndAttribute() {
+    $date = new \DateTime($this->attributes['drive_license_end']);
+    return $date->format('d-m-Y');
+  }
+
+  /**
+   * Get equipments that this employees can operate and hander
+   */
+  public function equipmentTypes() {
+    return $this->belongsToMany(
+      'App\EquipmentTypes',
+      'employees_equipment_types',
+      'employee_id',
+      'equipment_type_id'
+    )->withTimestamps();
+  }
+
+  /**
+   * Get contacts of employees relationship
+   */
+  public function contacts() {
+    return $this->hasMany('App\Contacts', 'employee_id', 'id');
+  }
+}
