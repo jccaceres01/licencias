@@ -10,8 +10,8 @@ class Employees extends Model
 
   protected $fillable = [
     'code',
-    'first_names',
-    'last_names',
+    'firstnames',
+    'lastnames',
     'nickname',
     'identify_document',
     'birthdate',
@@ -98,32 +98,50 @@ class Employees extends Model
    * Latam birthdate mutator
    */
   public function getLatamBirthdateAttribute() {
-    $birthdate = new \DateTime($this->attributes['birthdate']);
-    return $birthdate->format('d-m-Y');
+    if ($this->attributes['birthdate'] != null) {
+      $birthdate = new \DateTime($this->attributes['birthdate']);
+      return $birthdate->format('d-m-Y');
+    } else {
+      return null;
+    }
   }
 
   /**
    * Latam hiredate mutator
    */
   public function getLatamHiredateAttribute() {
-    $hiredate = new \DateTime($this->attributes['hiredate']);
-    return $hiredate->format('d-m-Y');
+
+    if ($this->attributes['hiredate'] != null) {
+      $hiredate = new \DateTime($this->attributes['hiredate']);
+      return $hiredate->format('d-m-Y');
+    } else {
+      return null;
+    }
   }
 
   /**
    * Latam drive license start mutator
    */
   public function getLatamDriveLicenseStartAttribute() {
-    $date = new \DateTime($this->attributes['drive_license_start']);
-    return $date->format('d-m-Y');
+
+    if ($this->attributes['drive_license_start'] != null) {
+      $date = new \DateTime($this->attributes['drive_license_start']);
+      return $date->format('d-m-Y');
+    } else {
+      return null;
+    }
   }
 
   /**
    * Latam drive license end mutator
    */
   public function getLatamDriveLicenseEndAttribute() {
-    $date = new \DateTime($this->attributes['drive_license_end']);
-    return $date->format('d-m-Y');
+    if ($this->attributes['drive_license_end'] != null) {
+      $date = new \DateTime($this->attributes['drive_license_end']);
+      return $date->format('d-m-Y');
+    } else {
+      return null;
+    }
   }
 
   /**
@@ -143,5 +161,22 @@ class Employees extends Model
    */
   public function contacts() {
     return $this->hasMany('App\Contacts', 'employee_id', 'id');
+  }
+
+  /**
+   * Get Courses by a employee
+   */
+  public function courses() {
+    return $this->belongsToMany('App\Courses', 'employees_courses',
+      'employee_id', 'course_id')
+      ->withPivot(['start_date', 'end_date'])
+      ->withTimestamps();
+  }
+
+  /**
+   * Get full name of a employee
+   */
+  public function getFullNameAttribute() {
+    return $this->attributes['firstnames'].' '.$this->attributes['lastnames'];
   }
 }
