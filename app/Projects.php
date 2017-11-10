@@ -12,9 +12,36 @@ class Projects extends Model
     'address',
     'country_id',
     'description',
+    'employee_id',
     'email',
     'latitude',
     'longitude',
     'altitude'
   ];
+
+  /**
+   * Get country of a project
+   */
+  public function country() {
+    return $this->hasOne('App\Countries', 'id', 'country_id');
+  }
+
+  /**
+   * Search projects query scope
+   */
+  public function scopeSearch($query, $criteria) {
+    if ($criteria != null) {
+      return $query->where('name', 'like', '%'.$criteria.'%')
+        ->orWhereHas('country', function($callback) use ($criteria) {
+          return $callback->where('name', 'like', '%'.$criteria.'%');
+        });
+    }
+  }
+
+  /**
+   * Get General supervisor
+   */
+  public function generalSupervisor() {
+    return $this->hasOne('App\Employees', 'id', 'employee_id');
+  }
 }

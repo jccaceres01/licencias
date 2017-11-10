@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests\EmployeesRequest;
 use App\Employees;
+use App\EquipmentTypes;
 use App\Projects;
+use App\Shifts;
 
 class EmployeesController extends Controller
 {
@@ -30,7 +32,8 @@ class EmployeesController extends Controller
     public function create()
     {
       return view('employees.create')->with([
-        'projects' => Projects::orderBy('name')->pluck('name', 'id')
+        'projects' => Projects::orderBy('name')->pluck('name', 'id'),
+        'shifts' => Shifts::orderBy('name')->pluck('name', 'id')
       ]);
     }
 
@@ -71,7 +74,11 @@ class EmployeesController extends Controller
      */
     public function show($id)
     {
-      return view('employees.show')->with('employee', Employees::find($id));
+      return view('employees.show')->with([
+        'employee' => Employees::find($id),
+        'equipmentTypes' => EquipmentTypes::orderBy('name')
+          ->pluck('name', 'id')
+      ]);
     }
 
     /**
@@ -84,7 +91,8 @@ class EmployeesController extends Controller
     {
       return view('employees.edit')->with([
         'employee' => Employees::find($id),
-        'projects' => Projects::orderBy('name')->pluck('name', 'id')
+        'projects' => Projects::orderBy('name')->pluck('name', 'id'),
+        'shifts' => Shifts::orderBy('name')->pluck('name', 'id')
       ]);
     }
 
@@ -165,4 +173,50 @@ class EmployeesController extends Controller
         '<strong>Información</strong>');
       return redirect()->route('employees.index');
     }
+
+    /**
+     * Add Equipment to employee
+     */
+    public function addEquipment(Request $request, $employee_id) {
+      $employee = Employees::find($employee_id);
+
+      if ($request->has('equipment_type_id')) {
+        try {
+          $employee->equipmentTypes()->attach($request->equipment_type_id);
+          \Notify::success('Equipo agregado', 'Información');
+          return redirect()->route('employees.show', $employee->id);
+        } catch (\Exception $e) {
+          switch ($e->getCode()) {
+            case '23000':
+              \Notify::error('Este  equipo ya  esta asignado', 'Error');
+              return redirect()->back();
+            default:
+              \Notify::error($e->getMessage(), 'Error: '. $e->getCode());
+              return redirect()->back();
+          }
+        }
+      } else {
+        \Notify::error('No se recivio el parametro', 'Información');
+        return redirect()->back();
+      }
+    }
+
+  /**
+   * Remove equipment from employee
+   */
+  public function removeEquipment($employee_id, $equipment_type_id) {
+    $employee = Employees::find($employee_id);
+
+    try {
+      $employee->equipmentTypes()->detach($equipment_type_id);
+      \Notify::success('Equipo removido', 'Información');
+      return redirect()->route('employees.show', $employee->id);
+    } catch (\Exception $e) {
+      switch ($e->getCode()) {
+        default:
+          \Notify::error($e->getMessage(), 'Error: '.$e->getCode());
+          return redirect()->back();
+      }
+    }
+  }
 }

@@ -16,10 +16,7 @@ class CreateEquipmentTypesTable extends Migration
         Schema::create('equipment_types', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name', 90);
-            $table->char('short_name', 5)->nullable();
-            $table->enum('classification', ['equipo', 'herramienta']);
-            $table->string('imgpath', 250);
-            $table->string('description', 250)->nullable();
+            $table->string('code', 20)->nullable()->unique();
             $table->timestamps();
         });
     }

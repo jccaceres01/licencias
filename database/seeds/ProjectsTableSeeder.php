@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use Faker\Factory as Faker;
 use App\Projects;
 use App\Countries;
 
@@ -13,37 +14,38 @@ class ProjectsTableSeeder extends Seeder
      */
     public function run()
     {
+      $faker = Faker::create();
       $country = Countries::where('code', 'DO')->first();
       $projects = [
         [
           'name' => 'PVDC TSF',
-          'address' => '',
+          'address' => $faker->address,
           'country_id' => $country->id,
-          'description' => '',
+          'description' => $faker->sentence(rand(2, 5)),
           'email' => 'info@socococr.com',
-          'latitude' => null,
-          'longitude' => null,
-          'altitude' => null
+          'latitude' => $faker->latitude,
+          'longitude' => $faker->longitude,
+          'altitude' => $faker->numberBetween(10, 20, 2)
         ],
         [
           'name' => 'PVDC Mina',
-          'address' => '',
+          'address' => $faker->address,
           'country_id' => $country->id,
-          'description' => '',
+          'description' => $faker->sentence(rand(2, 5)),
           'email' => 'info@socococr.com',
-          'latitude' => null,
-          'longitude' => null,
-          'altitude' => null
+          'latitude' => $faker->latitude,
+          'longitude' => $faker->longitude,
+          'altitude' => $faker->numberBetween(10, 20, 2)
         ],
         [
           'name' => 'CMD',
-          'address' => '',
+          'address' => $faker->address,
           'country_id' => $country->id,
-          'description' => '',
+          'description' => $faker->sentence(rand(2, 5)),
           'email' => 'info@socococr.com',
-          'latitude' => null,
-          'longitude' => null,
-          'altitude' => null
+          'latitude' => $faker->latitude,
+          'longitude' => $faker->longitude,
+          'altitude' => $faker->numberBetween(10, 20, 2)
         ]
       ];
 

@@ -16,6 +16,9 @@ window.Vue = require('vue');
  */
 
 Vue.component('example', require('./components/Example.vue'));
+Vue.component('equipments', require('./components/Equipments.vue'));
+Vue.component('courses', require('./components/Courses.vue'));
+Vue.component('shifts', require('./components/Shifts.vue'));
 
 const app = new Vue({
     el: '#app'

@@ -37,6 +37,7 @@ class EmployeesRequest extends FormRequest
           'position' => 'max:90',
           'drive_license' => 'max:45',
           'project_id' => 'required',
+          'employee_type' => 'required',
           'status' => ['nullable', Rule::in('activo', 'cacelado', 'parado')]
         ];
     }
@@ -67,7 +68,8 @@ class EmployeesRequest extends FormRequest
         'drive_license_category.in' => 'El campo: Categoria de Licencia, solo admite los siguientes valores: 01 Conductor, 02 Conductor, 03 Primera pesados, 04 Segunda pesados, 05 Especial',
         'project_id.required' => 'El campo: Proyecto, es necesario',
         'status.required' => 'El campo: Status, es necesario',
-        'status.in' => 'El campo: Status, debe de ser una de las siguientes opciones: activo, cancelado, parado'
+        'status.in' => 'El campo: Status, debe de ser una de las siguientes opciones: activo, cancelado, parado',
+        'employee_type.required' => 'El campo: Tipo de Empleado, Es necesario'
       ];
     }
 }

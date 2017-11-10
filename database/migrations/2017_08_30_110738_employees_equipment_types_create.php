@@ -17,6 +17,7 @@ class EmployeesEquipmentTypesCreate extends Migration
         $table->increments('id');
         $table->integer('employee_id')->unsigned();  // Employees foreign key
         $table->integer('equipment_type_id')->unsigned(); // equipment_types foreign key
+        $table->unique(['employee_id', 'equipment_type_id']); // Unique for avoid duplicates
         $table->timestamps();
       });
     }

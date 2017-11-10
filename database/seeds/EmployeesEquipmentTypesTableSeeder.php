@@ -15,7 +15,7 @@ class EmployeesEquipmentTypesTableSeeder extends Seeder
     {
       foreach(Employees::all() as $employee) {
         $equipmentTypes = EquipmentTypes::inRandomOrder()
-          ->take(rand(0, EquipmentTypes::count()))->pluck('id')->toArray();
+          ->take(rand(1, EquipmentTypes::count()))->pluck('id')->toArray();
 
         $employee->equipmentTypes()->attach($equipmentTypes);
       }

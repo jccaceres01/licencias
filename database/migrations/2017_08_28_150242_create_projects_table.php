@@ -18,11 +18,12 @@ class CreateProjectsTable extends Migration
             $table->string('name', 90);
             $table->string('address', 250)->nullable();
             $table->integer('country_id')->unsigned(); //Country foreign key
-            $table->string('description', 250);
+            $table->string('description', 250)->nullable();
+            $table->integer('employee_id')->unsigned()->nullable(); // GeneralSupervisor
             $table->string('email', 90)->nullable();
-            $table->float('latitude', 9, 2)->nullable();
-            $table->float('longitude', 9, 2)->nullable();
-            $table->float('altitude', 9, 2)->nullable();
+            $table->decimal('latitude', 11, 8)->nullable();
+            $table->decimal('longitude', 11, 8)->nullable();
+            $table->decimal('altitude', 11, 8)->nullable();
             $table->timestamps();
         });
     }

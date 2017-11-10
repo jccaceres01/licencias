@@ -9,15 +9,9 @@ class EquipmentTypes extends Model
   protected $table = 'equipment_types';
   protected $fillable = [
     'name',
-    'short_name',
-    'classification',
-    'imgpath',
-    'description'
-  ];
-
-  public static $classification = [
-    'equipo',
-    'herramienta'
+    'code',
+    'description',
+    'imgpath'
   ];
 
   /**

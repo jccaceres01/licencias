@@ -15,14 +15,14 @@ class CreateEmployeesTable extends Migration
     {
         Schema::create('employees', function (Blueprint $table) {
           $table->increments('id');
-          $table->string('code')->unique();
+          $table->string('code', 15)->unique();
           $table->string('firstnames', 90);
           $table->string('lastnames', 90);
           $table->string('nickname', 90)->nullable();
           $table->string('identify_document', 45)->nullable()->unique();
           $table->date('birthdate')->nullable();
           $table->date('hiredate')->nullable();
-          $table->enum('gender', ['M', 'F']);
+          $table->enum('gender', ['M', 'F'])->nullable();
           $table->enum('blood', [
             'O+',
             'O-',
@@ -37,7 +37,7 @@ class CreateEmployeesTable extends Migration
           $table->string('email', 90)->nullable();
           $table->string('phonenumber', 45)->nullable();
           $table->string('cellphone', 45)->nullable();
-          $table->string('position')->nullable();
+          $table->string('position', 90)->nullable();
           $table->string('imgpath', 250)->nullable();
           $table->string('drive_license', 45)->nullable();
           $table->enum('drive_license_category', [
@@ -55,6 +55,15 @@ class CreateEmployeesTable extends Migration
           $table->enum('status', ['activo', 'cacelado', 'parado'])
             ->default('activo');
           $table->integer('country_id')->unsigned()->nullable(); // Nationality, countries foreign key
+          $table->enum('employee_type', [
+            'administrativo',
+            'supervisor general',
+            'supervisor de turno',
+            'supervisor',
+            'mecanico',
+            'operador'
+          ])->nullable();
+          $table->integer('shift_id')->unsigned()->nullable();
           $table->timestamps();
         });
     }
