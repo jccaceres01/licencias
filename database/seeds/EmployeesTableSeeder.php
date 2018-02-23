@@ -52,7 +52,7 @@ class EmployeesTableSeeder extends Seeder
           'firstnames' => $faker->firstName(),
           'lastnames' => $faker->lastName(),
           'nickname' => $faker->sentence(1),
-          'identify_document' => str_limit($faker->uuid, 12, ''),
+          'identity_document' => str_limit($faker->uuid, 12, ''),
           'birthdate' => $faker->dateTimeBetween('-30 years', '-12 years'),
           'hiredate' => $faker->dateTimeBetween('-12 years', '-1 years'),
           'gender' => $gender[rand(0, 1)],

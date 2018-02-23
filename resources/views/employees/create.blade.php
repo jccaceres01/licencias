@@ -88,10 +88,10 @@
                   </div>
                 </div>
                 <div class="col-md-4">
-                  <!-- shift_id -->
+                  <!-- group_id -->
                   <div class="form-group">
-                    {{ Form::label('shift_id', 'Turno')}}
-                    {{ Form::select('shift_id',  $shifts, old('shift_id'), ['class' => 'form-control', 'placeholder' => 'Turnos'])}}
+                    {{ Form::label('group_id', 'Grupo')}}
+                    {{ Form::select('group_id',  $groups, old('group_id'), ['class' => 'form-control', 'placeholder' => 'Grupos'])}}
                   </div>
                 </div>
                 <div class="col-md-4">

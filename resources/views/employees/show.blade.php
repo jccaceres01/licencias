@@ -82,8 +82,8 @@
             <img src="{{ ($employee->imgpath != null) ? asset('storage/'.$employee->imgpath) : asset('storage/img/page/no-image.png')}}" alt="" class="img img-responsive img-thumbnail" style="width: 120px; height: 120px">
             <br>
             <span><strong><i class="fa fa-tasks"></i> Proyecto: </strong> {{ $employee->project->name }}</span><br>
-            <span><strong><i class="fa fa-calendar-times-o"></i> Turno: </strong> @empty($employee->shift) No definido @else {{ $employee->shift->name }}</span> @endempty <br>
-            <span><strong><i class="fa fa-user-secret"></i> Supervisor: </strong> @empty($employee->shift) No definido @else {{ $employee->shift->supervisor->fullName }}</span> @endempty <br>
+            <span><strong><i class="fa fa-calendar-times-o"></i> Grupo: </strong> @empty($employee->group) No definido @else {{ $employee->group->name }}</span> @endempty <br>
+            <span><strong><i class="fa fa-user-secret"></i> Supervisor: </strong> @empty($employee->group) No definido @else {{ $employee->group->supervisor->fullName }}</span> @endempty <br>
             <span><strong><i class="fa fa-flag"></i> Nacionalidad: </strong> @empty($employee->country ) No definido @else {{ $employee->country->name }} @endempty <br>
             <span><strong><i class="fa fa-id-card"></i> Codigo: </strong> {{ $employee->code }}</span><br>
             <span><strong><i class="fa fa-id-card-o"></i> Cedula: </strong> {{ $employee->identify_document }}</span><br>

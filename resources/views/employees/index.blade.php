@@ -51,7 +51,7 @@
           <tr>
             <td><img class="img-responsive img-circle" style="border: solid 2px darkgray;width:35px; height:35px;" src="{{ ($employee->imgpath != null) ? asset('storage/'.$employee->imgpath) : asset('storage/img/page/no-image.png')}}" data-toggle="tooltip" data-placement="top" title="{{ $employee->code }}"></td>
             <td>{{ $employee->code }}</td>
-            <td>{{ $employee->identify_document }}</td>
+            <td>{{ $employee->identity_document }}</td>
             <td>{{ $employee->firstnames }}</td>
             <td>{{ $employee->lastnames }}</td>
             <td>

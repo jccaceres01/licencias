@@ -19,7 +19,7 @@ class CreateEmployeesTable extends Migration
           $table->string('firstnames', 90);
           $table->string('lastnames', 90);
           $table->string('nickname', 90)->nullable();
-          $table->string('identify_document', 45)->nullable()->unique();
+          $table->string('identity_document', 45)->nullable()->unique();
           $table->date('birthdate')->nullable();
           $table->date('hiredate')->nullable();
           $table->enum('gender', ['M', 'F'])->nullable();
