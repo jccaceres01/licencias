@@ -17,7 +17,15 @@ class EmployeesEquipmentTypesTableSeeder extends Seeder
         $equipmentTypes = EquipmentTypes::inRandomOrder()
           ->take(rand(1, EquipmentTypes::count()))->pluck('id')->toArray();
 
-        $employee->equipmentTypes()->attach($equipmentTypes);
+        foreach ($equipmentTypes as $equipmentType) {
+          $date = new \DateTime(rand(-30, 30).' days');
+
+          $employee->equipmentTypes()->attach($equipmentType, [
+            'date' => $date->format('Y-m-d'),
+            'filepath' => null,
+            'carnet_print' => rand(0, 1)
+          ]);
+        }
       }
     }
 }

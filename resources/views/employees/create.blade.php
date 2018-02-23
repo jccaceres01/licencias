@@ -74,7 +74,7 @@
                 <div class="col-md-4">
                   <!-- employee_type -->
                   <div class="form-group">
-                    {{ Form::label('employee_type', 'Tipo de Empleado')}}
+                    {{ Form::label('employee_type', 'Tipo de Empleado *')}}
                     <select class="form-control" name="employee_type">
                       <option value="" disabled selected>Tipo de Empleado</option>
                       @foreach(array_sort(App\Employees::$employeeType) as $employeeType)
@@ -297,7 +297,6 @@
 <script type="text/javascript">
   var prev = document.getElementById('prev')
   var input = document.getElementById('imgpath')
-
 
   input.onchange = function() {
     var reader = new FileReader();

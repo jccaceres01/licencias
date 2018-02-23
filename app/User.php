@@ -4,10 +4,11 @@ namespace App;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-    use Notifiable;
+    use Notifiable, HasRoles;
 
     /**
      * The attributes that are mass assignable.
@@ -26,4 +27,14 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+  /**
+   * users search query scope
+   */
+  public function scopeSearch($query, $criteria) {
+    if ($criteria != null) {
+      return $query->where('name', 'like', '%'.$criteria.'%')
+        ->orWhere('email', 'like', '%'.$criteria.'%');
+    }
+  }
 }

@@ -76,7 +76,7 @@
                 <div class="col-md-4">
                   <!-- employee_type -->
                   <div class="form-group">
-                    {{ Form::label('employee_type', 'Tipo de Empleado')}}
+                    {{ Form::label('employee_type', 'Tipo de Empleado *')}}
                     <select class="form-control" name="employee_type">
                       <option value="" disabled selected>Tipo de Empleado</option>
                       @foreach(array_sort(App\Employees::$employeeType) as $employeeType)
@@ -247,7 +247,7 @@
                   <div class="form-group">
                     {{ Form::label('drive_license_category', 'Categoria de Licencia')}}
                     <select class="form-control" name="drive_license_category">
-                      <option caption="Categoria de la Licencia">Categoria de Licencia</option>
+                      <option value="" disabled selected>Categoria de Licencia</option>
                       @foreach(App\Employees::$driveLicenseCategory as $category)
                       @if($category == $employee->drive_license_category)
                       <option value="{{ $category }}" selected="selected">{{ $category }}</option>

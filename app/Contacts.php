@@ -19,13 +19,20 @@ class Contacts extends Model
   ];
 
   public static $relation = [
-    'conyugue',
+    'conyuge',
     'padre',
     'madre',
     'otros familiares',
     'amig@',
     'conocid@'
   ];
+
+  /**
+   * Get full name  attribute
+   */
+  public function getFullNameAttribute() {
+    return $this->attributes['firstnames'].$this->attributes['lastnames'];
+  }
 
   /**
    * Contacts belongsTo employee relationship

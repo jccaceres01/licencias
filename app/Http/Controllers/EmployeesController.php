@@ -4,10 +4,15 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\EmployeesRequest;
+use App\Http\Requests\Employees\EditEmployeesEquipmentRequest;
+use App\Http\Requests\Employees\EmployeesEquipmentRequest;
+use App\Http\Requests\Employees\EmployeesCoursesRequest;
+use App\Http\Requests\Employees\EditEmployeesCourseRequest;
 use App\Employees;
 use App\EquipmentTypes;
+use App\Courses;
 use App\Projects;
-use App\Shifts;
+use App\Groups;
 
 class EmployeesController extends Controller
 {
@@ -18,10 +23,14 @@ class EmployeesController extends Controller
      */
     public function index(Request $request)
     {
-      $emp = Employees::orderBy('code')->search($request->criteria)
-        ->paginate(10);
-
-      return view('employees.index')->with('employees', $emp);
+      if (\Auth::user()->can('list employees')) {
+        $emp = Employees::orderBy('code')->search($request->criteria)
+          ->paginate(10);
+        return view('employees.index')->with('employees', $emp);
+      } else {
+          \Notify::warning('No tiene acceso para ver empleados', 'Información');
+          return redirect()->back();
+      }
     }
 
     /**
@@ -31,10 +40,16 @@ class EmployeesController extends Controller
      */
     public function create()
     {
-      return view('employees.create')->with([
-        'projects' => Projects::orderBy('name')->pluck('name', 'id'),
-        'shifts' => Shifts::orderBy('name')->pluck('name', 'id')
-      ]);
+      if (\Auth::user()->can('create employees')) {
+        return view('employees.create')->with([
+          'projects' => Projects::orderBy('name')->pluck('name', 'id'),
+          'groups' => Groups::orderBy('name')->pluck('name', 'id')
+        ]);
+      } else {
+        \Notify::warning('No tiene privilegios para crear empleados'
+          , 'Información');
+        return redirect()->back();
+      }
     }
 
     /**
@@ -45,24 +60,31 @@ class EmployeesController extends Controller
      */
     public function store(EmployeesRequest $request)
     {
-      try {
-        $emp = Employees::create($request->except(['imgpath']));
+      if (\Auth::user()->can('create employees')) {
+        try {
+          $emp = Employees::create($request->except(['imgpath']));
 
-        if ($request->hasFile('imgpath')) {
-            $path = $request->imgpath->store('img/employees', 'public');
-            $emp->imgpath = $path;
-            $emp->save();
+          if ($request->hasFile('imgpath')) {
+              $path = $request->imgpath->store('img/employees', 'public');
+              $emp->imgpath = $path;
+              $emp->save();
+          }
 
-            \Notify::success('Empleado creado correctamente',
-              '<strong>Información</strong>');
-            return redirect()->route('employees.show', $emp->id);
+          \Notify::success('Empleado creado correctamente',
+            '<strong>Información</strong>');
+          return redirect()->route('employees.show', $emp->id);
+
+        } catch (\Exception $e) {
+          switch ($e->getCode()) {
+            default:
+              \Notify::error($e->getMessage(), 'Error '.$e->getCode().': ');
+              return redirect()->back()->withInput();
+          }
         }
-      } catch (\Exception $e) {
-        switch ($e->getCode()) {
-          default:
-            \Notify::error($e->getMessage(), 'Error '.$e->getCode().': ');
-            return redirect()->back()->withInput();
-        }
+      } else {
+        \Notify::warning('No tiene privilegios para crear empleados',
+          'Información');
+        return redirect()->back();
       }
     }
 
@@ -74,11 +96,18 @@ class EmployeesController extends Controller
      */
     public function show($id)
     {
-      return view('employees.show')->with([
-        'employee' => Employees::find($id),
-        'equipmentTypes' => EquipmentTypes::orderBy('name')
-          ->pluck('name', 'id')
-      ]);
+      if (\Auth::user()->can('view employees')) {
+        return view('employees.show')->with([
+          'employee' => Employees::find($id),
+          'equipmentTypes' => EquipmentTypes::orderBy('name')
+            ->pluck('name', 'id'),
+          'courses' => Courses::orderBy('name')->pluck('name', 'id')
+        ]);
+      } else {
+        \Notify::warning('No tiene privilegios para ver los datos del empleado',
+          'Información');
+        return redirect()->back();
+      }
     }
 
     /**
@@ -89,11 +118,17 @@ class EmployeesController extends Controller
      */
     public function edit($id)
     {
-      return view('employees.edit')->with([
-        'employee' => Employees::find($id),
-        'projects' => Projects::orderBy('name')->pluck('name', 'id'),
-        'shifts' => Shifts::orderBy('name')->pluck('name', 'id')
-      ]);
+      if (\Auth::user()->can('edit employees')) {
+        return view('employees.edit')->with([
+          'employee' => Employees::find($id),
+          'projects' => Projects::orderBy('name')->pluck('name', 'id'),
+          'groups' => Groups::orderBy('name')->pluck('name', 'id')
+        ]);
+      } else {
+        \Notify::warning('No tiene privilegios para editar
+        los datos del empleado', 'Información');
+        return redirect()->back();
+      }
     }
 
     /**
@@ -105,35 +140,41 @@ class EmployeesController extends Controller
      */
     public function update(EmployeesRequest $request, $id)
     {
-      $emp = Employees::find($id);
+      if (\Auth::user()->can('edit employees')) {
+        $emp = Employees::find($id);
 
-      try {
-        $emp->update($request->except('imgpath'));
+        try {
+          $emp->update($request->except('imgpath'));
 
-        if ($request->hasFile('imgpath')) {
-          if ($emp->imgpath != null) {
-            $oldpath = $emp->imgpath;
-            $path = $request->imgpath->store('img/employees', 'public');
-            $emp->imgpath = $path;
-            $emp->save();
+          if ($request->hasFile('imgpath')) {
+            if ($emp->imgpath != null) {
+              $oldpath = $emp->imgpath;
+              $path = $request->imgpath->store('img/employees', 'public');
+              $emp->imgpath = $path;
+              $emp->save();
 
-            \Storage::drive('public')->delete($oldpath);
-          } else {
-            $path = $request->imgpath->store('img/employees', 'public');
-            $emp->imgpath = $path;
-            $emp->save();
+              \Storage::drive('public')->delete($oldpath);
+            } else {
+              $path = $request->imgpath->store('img/employees', 'public');
+              $emp->imgpath = $path;
+              $emp->save();
+            }
+          }
+
+          \Notify::success('Empleado modificado correctamente',
+            '<strong>Información</strong>');
+          return redirect()->route('employees.show', $emp->id);
+        } catch (\Exception $e) {
+          switch ($e->getCode()) {
+            default:
+              \Notify::error($e->getCode(), 'Error '.$e->getMessage());
+              return redirect()->back()->withInput();
           }
         }
-
-        \Notify::success('Empleado modificado correctamente',
-          '<strong>Información</strong>');
-        return redirect()->route('employees.show', $emp->id);
-      } catch (\Exception $e) {
-        switch ($e->getCode()) {
-          default:
-            \Notify::error($e->getCode(), 'Error '.$e->getCode());
-            return redirect()->back()->withInput();
-        }
+      } else {
+        \Notify::warning('No tiene los permisos para borrar empleados',
+          'Información');
+        return redirect()->back();
       }
     }
 
@@ -145,58 +186,80 @@ class EmployeesController extends Controller
      */
     public function destroy($id)
     {
-      $emp = Employees::find($id);
-      $oldpath = $emp->imgpath;
+      if (\Auth::user()->can('delete employees')) {
+        $emp = Employees::find($id);
+        $oldpath = $emp->imgpath;
 
-      try {
-        $emp->delete();
+        try {
+          $emp->delete();
 
-        if($oldpath != null || trim($oldpath) != '') {
-          \Storage::drive('public')->delete($oldpath);
+          if($oldpath != null || trim($oldpath) != '') {
+            \Storage::drive('public')->delete($oldpath);
+          }
+
+          \Notify::success('Empleado borrado correctamente',
+            '<strong>Información</strong>');
+        } catch (\Exception $e) {
+          switch ($e->getCode()) {
+            case '23000':
+              \Notify::error('Otros registros dependen de este,
+                primero borre las dependencias.', 'Error '.$e->getCode().': ');
+              return redirect()->back();
+            default:
+              \Notify::error($e->getMessage(), 'Error '.$e->getCode().': ');
+              return redirect()->back();
+          }
         }
 
         \Notify::success('Empleado borrado correctamente',
           '<strong>Información</strong>');
-      } catch (\Exception $e) {
-        switch ($e->getCode()) {
-          case '23000':
-            \Notify::error('Otros registros dependen de este,
-              primero borre las dependencias.', 'Error '.$e->getCode().': ');
-            return redirect()->back();
-          default:
-            \Notify::error($e->getMessage(), 'Error '.$e->getCode().': ');
-            return redirect()->back();
-        }
+        return redirect()->route('employees.index');
+      } else {
+        \Notify::warning('No tiene privilegios para borrar el empleado',
+          'Información');
+        return redirect()->back();
       }
-
-      \Notify::success('Empleado borrado correctamente',
-        '<strong>Información</strong>');
-      return redirect()->route('employees.index');
     }
 
     /**
      * Add Equipment to employee
      */
-    public function addEquipment(Request $request, $employee_id) {
-      $employee = Employees::find($employee_id);
+    public function addEquipment(
+      EmployeesEquipmentRequest $request,
+      $employee_id
+    ) {
 
-      if ($request->has('equipment_type_id')) {
-        try {
-          $employee->equipmentTypes()->attach($request->equipment_type_id);
-          \Notify::success('Equipo agregado', 'Información');
-          return redirect()->route('employees.show', $employee->id);
-        } catch (\Exception $e) {
-          switch ($e->getCode()) {
-            case '23000':
-              \Notify::error('Este  equipo ya  esta asignado', 'Error');
-              return redirect()->back();
-            default:
-              \Notify::error($e->getMessage(), 'Error: '. $e->getCode());
-              return redirect()->back();
+      if (\Auth::user()->can('attach equipment_types')) {
+        $employee = Employees::find($employee_id);
+        $filepath = null;
+
+          if ($request->hasfile('filepath')) {
+            $filepath = $request->filepath
+              ->store('docs/employees_equipment_types', 'public');
           }
-        }
+
+          try {
+            $employee->equipmentTypes()->attach($request->equipment_type_id, [
+              'date' => $request->date,
+              'filepath' => $filepath,
+              'carnet_print' => $request->carnet_print
+            ]);
+
+            \Notify::success('Equipo agregado', 'Información');
+            return redirect()->route('employees.show', $employee->id);
+          } catch (\Exception $e) {
+            switch ($e->getCode()) {
+              case '23000':
+                \Notify::error('Este  equipo ya  esta asignado', 'Error');
+                return redirect()->back();
+              default:
+                \Notify::error($e->getMessage(), 'Error: '. $e->getCode());
+                return redirect()->back();
+            }
+          }
       } else {
-        \Notify::error('No se recivio el parametro', 'Información');
+        \Notify::warning('No tiene los permisos para asignar equipos',
+          'Información');
         return redirect()->back();
       }
     }
@@ -205,18 +268,244 @@ class EmployeesController extends Controller
    * Remove equipment from employee
    */
   public function removeEquipment($employee_id, $equipment_type_id) {
-    $employee = Employees::find($employee_id);
 
-    try {
-      $employee->equipmentTypes()->detach($equipment_type_id);
-      \Notify::success('Equipo removido', 'Información');
-      return redirect()->route('employees.show', $employee->id);
-    } catch (\Exception $e) {
-      switch ($e->getCode()) {
-        default:
-          \Notify::error($e->getMessage(), 'Error: '.$e->getCode());
-          return redirect()->back();
+    if (\Auth::user()->can('detach equipment_types')) {
+      $employee = Employees::find($employee_id);
+      $filepath = $employee->equipmentTypes()->find($equipment_type_id)
+        ->pivot->filepath;
+
+      if  ($filepath != null) {
+        \Storage::disk('public')->delete($filepath);
       }
+
+      try {
+        $employee->equipmentTypes()->detach($equipment_type_id);
+        \Notify::success('Equipo removido', 'Información');
+        return redirect()->route('employees.show', $employee->id);
+      } catch (\Exception $e) {
+        switch ($e->getCode()) {
+          default:
+            \Notify::error($e->getMessage(), 'Error: '.$e->getCode());
+            return redirect()->back();
+        }
+      }
+    } else {
+      \Notify::warning('No tiene los permisos para quitar equipos',
+        'Información');
+      return redirect()->back();
+    }
+  }
+
+  /**
+   * Add course to employee
+   */
+  public function addCourse(
+    EmployeesCoursesRequest $request,
+    $employee_id
+  ) {
+
+    if (\Auth::user()->can('attach courses')) {
+      $employee = Employees::find($employee_id);
+      $filepath = null;
+
+        if ($request->hasfile('filepath')) {
+          $filepath = $request->filepath
+            ->store('docs/employees_courses', 'public');
+        }
+
+        try {
+          $employee->courses()->attach($request->course_id, [
+            'date' => $request->date,
+            'filepath' => $filepath,
+            'carnet_print' => $request->carnet_print
+          ]);
+
+          \Notify::success('Competencia Agregada', 'Información');
+          return redirect()->route('employees.show', $employee->id);
+        } catch (\Exception $e) {
+          switch ($e->getCode()) {
+            case '23000':
+              \Notify::error('Esta Competencia ya esta asignada', 'Error');
+              return redirect()->back();
+            default:
+              \Notify::error($e->getMessage(), 'Error: '. $e->getCode());
+              return redirect()->back();
+          }
+        }
+    } else {
+      \Notify::warning('No tiene los permisos para asignar competencias',
+        'Información');
+      return redirect()->back();
+    }
+  }
+
+  /**
+   * Remove course from employee
+   */
+  public function removeCourse($employee_id, $course_id) {
+
+    if (\Auth::user()->can('detach courses')) {
+      $employee = Employees::find($employee_id);
+      $filepath = $employee->courses()->find($course_id)
+        ->pivot->filepath;
+
+      if  ($filepath != null) {
+        \Storage::disk('public')->delete($filepath);
+      }
+
+      try {
+        $employee->courses()->detach($course_id);
+        \Notify::success('Competencia removida', 'Información');
+        return redirect()->route('employees.show', $employee->id);
+      } catch (\Exception $e) {
+        switch ($e->getCode()) {
+          default:
+            \Notify::error($e->getMessage(), 'Error: '.$e->getCode());
+            return redirect()->back();
+        }
+      }
+    } else {
+      \Notify::warning('No tiene los permisos para quitar competencias',
+        'Información');
+      return redirect()->back();
+    }
+  }
+
+  /**
+   * Show Edit form for employee's equipment type
+   */
+  public function editEmployeeEquipments($employee_id, $equipment_type_id) {
+    if (\Auth::user()->can('edit asigned equipment_types')) {
+      $employee = Employees::find($employee_id);
+      $equipmentType = EquipmentTypes::find($equipment_type_id);
+
+      return view('employees.equipments')->with([
+        'employee' => $employee,
+        'equipmentType' => $equipmentType
+      ]);
+    } else {
+      \Notify::warning('No tiene privilegios para editar equipos asignados',
+        'Información');
+      return redirect()->back();
+    }
+  }
+
+  /**
+   * Update employee's equipment data
+   */
+  public function updateEmployeesEquipments(
+    EditEmployeesEquipmentRequest $request,
+    $employee_id,
+    $equipment_type_id
+  ) {
+    if (\Auth::user()->can('edit asigned equipment_types')) {
+      $employee = Employees::find($employee_id);
+      $equipmentType = EquipmentTypes::find($equipment_type_id);
+
+      $filepath = $employee->equipmentTypes()->find($equipment_type_id)->pivot
+        ->filepath;
+
+      if ($request->hasFile('filepath')) {
+        if ($filepath != null) {
+          \Storage::disk('public')->delete($filepath);
+          $filepath = $request->filepath->store('/docs/employees_equipment_types',
+            'public');
+        } else {
+          $filepath = $request->filepath->store('/docs/employees_equipment_types',
+            'public');
+        }
+      }
+
+      try {
+        $employee->equipmentTypes()->updateExistingPivot($equipmentType->id, [
+          'date' => $request->date,
+          'filepath' => $filepath,
+          'carnet_print' => $request->carnet_print
+        ]);
+
+        \Notify::success('Registro modificado correctamente', 'Información');
+        return redirect()->route('employees.show', $employee->id);
+
+      } catch (\Exception $e) {
+        switch ($e->getCode()) {
+          default:
+            \Notify::error($e->getMessage(), 'Error: ');
+          return redirect()->back();
+        }
+      }
+    } else {
+      \Notify::warning('No tiene privilegios para editar equipos asignados',
+        'Información');
+      return redirect()->back();
+    }
+  }
+
+  /**
+   * Show Edit form for employee's course
+   */
+  public function editEmployeeCourses($employee_id, $course_id) {
+    if (\Auth::user()->can('edit asigned courses')) {
+      $employee = Employees::find($employee_id);
+      $course = Courses::find($course_id);
+
+      return view('employees.courses')->with([
+        'employee' => $employee,
+        'course' => $course
+      ]);
+    } else {
+      \Notify::warning('No tiene privilegios para editar
+        competencias asignadas', 'Información');
+      return redirect()->back();
+    }
+  }
+
+  /**
+   * Update employee's course data
+   */
+  public function updateEmployeesCourses(
+    EditEmployeesCourseRequest $request,
+    $employee_id,
+    $course_id
+  ) {
+    if (\Auth::user()->can('edit asigned courses')) {
+      $employee = Employees::find($employee_id);
+      $course = Courses::find($course_id);
+
+      $filepath = $employee->courses()->find($course_id)->pivot
+        ->filepath;
+
+      if ($request->hasFile('filepath')) {
+        if ($filepath != null) {
+          \Storage::disk('public')->delete($filepath);
+          $filepath = $request->filepath->store('/docs/employees_courses',
+            'public');
+        } else {
+          $filepath = $request->filepath->store('/docs/employees_courses',
+            'public');
+        }
+      }
+
+      try {
+        $employee->courses()->updateExistingPivot($course->id, [
+          'date' => $request->date,
+          'filepath' => $filepath,
+          'carnet_print' => $request->carnet_print
+        ]);
+
+        \Notify::success('Registro modificado correctamente', 'Información');
+        return redirect()->route('employees.show', $employee->id);
+
+      } catch (\Exception $e) {
+        switch ($e->getCode()) {
+          default:
+            \Notify::error($e->getMessage(), 'Error: ');
+          return redirect()->back();
+        }
+      }
+    } else {
+      \Notify::warning('No tiene privilegios para editar
+        competencias asignadas', 'Información');
+      return redirect()->back();
     }
   }
 }

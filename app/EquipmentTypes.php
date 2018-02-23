@@ -23,6 +23,6 @@ class EquipmentTypes extends Model
       'employees_equipment_types',
       'employee_id',
       'equipment_type_id'
-    )->withTimestamps();
+    )->withPivot(['date', 'filepath', 'carnet_print'])->withTimestamps();
   }
 }

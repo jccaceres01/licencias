@@ -171,6 +171,7 @@ return [
         Jleon\LaravelPnotify\NotifyServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
+        Spatie\Permission\PermissionServiceProvider::class,
 
 
         /*

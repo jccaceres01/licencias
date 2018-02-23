@@ -18,5 +18,14 @@ class UsersTableSeeder extends Seeder
         'password' => \Hash::make('password1'),
         'remember_token' => str_random(100)
       ]);
+
+      for($i=1; $i<16; $i++) {
+        User::create([
+          'name' => 'name '.$i,
+          'email' => 'mail'.$i.'@mail.com',
+          'password' => \Hash::make('password1'),
+          'remember_token' => str_random(100)
+        ]);
+      }
     }
 }

@@ -70,7 +70,7 @@
 "use strict";
 
 
-var bind = __webpack_require__(6);
+var bind = __webpack_require__(4);
 var isBuffer = __webpack_require__(19);
 
 /*global toString:true*/
@@ -375,6 +375,106 @@ module.exports = {
 
 /***/ }),
 /* 1 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(process) {
+
+var utils = __webpack_require__(0);
+var normalizeHeaderName = __webpack_require__(22);
+
+var DEFAULT_CONTENT_TYPE = {
+  'Content-Type': 'application/x-www-form-urlencoded'
+};
+
+function setContentTypeIfUnset(headers, value) {
+  if (!utils.isUndefined(headers) && utils.isUndefined(headers['Content-Type'])) {
+    headers['Content-Type'] = value;
+  }
+}
+
+function getDefaultAdapter() {
+  var adapter;
+  if (typeof XMLHttpRequest !== 'undefined') {
+    // For browsers use XHR adapter
+    adapter = __webpack_require__(5);
+  } else if (typeof process !== 'undefined') {
+    // For node use HTTP adapter
+    adapter = __webpack_require__(5);
+  }
+  return adapter;
+}
+
+var defaults = {
+  adapter: getDefaultAdapter(),
+
+  transformRequest: [function transformRequest(data, headers) {
+    normalizeHeaderName(headers, 'Content-Type');
+    if (utils.isFormData(data) ||
+      utils.isArrayBuffer(data) ||
+      utils.isBuffer(data) ||
+      utils.isStream(data) ||
+      utils.isFile(data) ||
+      utils.isBlob(data)
+    ) {
+      return data;
+    }
+    if (utils.isArrayBufferView(data)) {
+      return data.buffer;
+    }
+    if (utils.isURLSearchParams(data)) {
+      setContentTypeIfUnset(headers, 'application/x-www-form-urlencoded;charset=utf-8');
+      return data.toString();
+    }
+    if (utils.isObject(data)) {
+      setContentTypeIfUnset(headers, 'application/json;charset=utf-8');
+      return JSON.stringify(data);
+    }
+    return data;
+  }],
+
+  transformResponse: [function transformResponse(data) {
+    /*eslint no-param-reassign:0*/
+    if (typeof data === 'string') {
+      try {
+        data = JSON.parse(data);
+      } catch (e) { /* Ignore */ }
+    }
+    return data;
+  }],
+
+  timeout: 0,
+
+  xsrfCookieName: 'XSRF-TOKEN',
+  xsrfHeaderName: 'X-XSRF-TOKEN',
+
+  maxContentLength: -1,
+
+  validateStatus: function validateStatus(status) {
+    return status >= 200 && status < 300;
+  }
+};
+
+defaults.headers = {
+  common: {
+    'Accept': 'application/json, text/plain, */*'
+  }
+};
+
+utils.forEach(['delete', 'get', 'head'], function forEachMethodNoData(method) {
+  defaults.headers[method] = {};
+});
+
+utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
+  defaults.headers[method] = utils.merge(DEFAULT_CONTENT_TYPE);
+});
+
+module.exports = defaults;
+
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(21)))
+
+/***/ }),
+/* 2 */
 /***/ (function(module, exports) {
 
 /* globals __VUE_SSR_CONTEXT__ */
@@ -471,107 +571,302 @@ module.exports = function normalizeComponent (
 
 
 /***/ }),
-/* 2 */
+/* 3 */
+/***/ (function(module, exports) {
+
+var g;
+
+// This works in non-strict mode
+g = (function() {
+	return this;
+})();
+
+try {
+	// This works if eval is allowed (see CSP)
+	g = g || Function("return this")() || (1,eval)("this");
+} catch(e) {
+	// This works if the window reference is available
+	if(typeof window === "object")
+		g = window;
+}
+
+// g can still be undefined, but nothing to do about it...
+// We return undefined, instead of nothing here, so it's
+// easier to handle this case. if(!global) { ...}
+
+module.exports = g;
+
+
+/***/ }),
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(process) {
 
-var utils = __webpack_require__(0);
-var normalizeHeaderName = __webpack_require__(22);
 
-var DEFAULT_CONTENT_TYPE = {
-  'Content-Type': 'application/x-www-form-urlencoded'
+module.exports = function bind(fn, thisArg) {
+  return function wrap() {
+    var args = new Array(arguments.length);
+    for (var i = 0; i < args.length; i++) {
+      args[i] = arguments[i];
+    }
+    return fn.apply(thisArg, args);
+  };
 };
 
-function setContentTypeIfUnset(headers, value) {
-  if (!utils.isUndefined(headers) && utils.isUndefined(headers['Content-Type'])) {
-    headers['Content-Type'] = value;
-  }
-}
-
-function getDefaultAdapter() {
-  var adapter;
-  if (typeof XMLHttpRequest !== 'undefined') {
-    // For browsers use XHR adapter
-    adapter = __webpack_require__(7);
-  } else if (typeof process !== 'undefined') {
-    // For node use HTTP adapter
-    adapter = __webpack_require__(7);
-  }
-  return adapter;
-}
-
-var defaults = {
-  adapter: getDefaultAdapter(),
-
-  transformRequest: [function transformRequest(data, headers) {
-    normalizeHeaderName(headers, 'Content-Type');
-    if (utils.isFormData(data) ||
-      utils.isArrayBuffer(data) ||
-      utils.isBuffer(data) ||
-      utils.isStream(data) ||
-      utils.isFile(data) ||
-      utils.isBlob(data)
-    ) {
-      return data;
-    }
-    if (utils.isArrayBufferView(data)) {
-      return data.buffer;
-    }
-    if (utils.isURLSearchParams(data)) {
-      setContentTypeIfUnset(headers, 'application/x-www-form-urlencoded;charset=utf-8');
-      return data.toString();
-    }
-    if (utils.isObject(data)) {
-      setContentTypeIfUnset(headers, 'application/json;charset=utf-8');
-      return JSON.stringify(data);
-    }
-    return data;
-  }],
-
-  transformResponse: [function transformResponse(data) {
-    /*eslint no-param-reassign:0*/
-    if (typeof data === 'string') {
-      try {
-        data = JSON.parse(data);
-      } catch (e) { /* Ignore */ }
-    }
-    return data;
-  }],
-
-  timeout: 0,
-
-  xsrfCookieName: 'XSRF-TOKEN',
-  xsrfHeaderName: 'X-XSRF-TOKEN',
-
-  maxContentLength: -1,
-
-  validateStatus: function validateStatus(status) {
-    return status >= 200 && status < 300;
-  }
-};
-
-defaults.headers = {
-  common: {
-    'Accept': 'application/json, text/plain, */*'
-  }
-};
-
-utils.forEach(['delete', 'get', 'head'], function forEachMethodNoData(method) {
-  defaults.headers[method] = {};
-});
-
-utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
-  defaults.headers[method] = utils.merge(DEFAULT_CONTENT_TYPE);
-});
-
-module.exports = defaults;
-
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(21)))
 
 /***/ }),
-/* 3 */
+/* 5 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var utils = __webpack_require__(0);
+var settle = __webpack_require__(23);
+var buildURL = __webpack_require__(25);
+var parseHeaders = __webpack_require__(26);
+var isURLSameOrigin = __webpack_require__(27);
+var createError = __webpack_require__(6);
+var btoa = (typeof window !== 'undefined' && window.btoa && window.btoa.bind(window)) || __webpack_require__(28);
+
+module.exports = function xhrAdapter(config) {
+  return new Promise(function dispatchXhrRequest(resolve, reject) {
+    var requestData = config.data;
+    var requestHeaders = config.headers;
+
+    if (utils.isFormData(requestData)) {
+      delete requestHeaders['Content-Type']; // Let the browser set it
+    }
+
+    var request = new XMLHttpRequest();
+    var loadEvent = 'onreadystatechange';
+    var xDomain = false;
+
+    // For IE 8/9 CORS support
+    // Only supports POST and GET calls and doesn't returns the response headers.
+    // DON'T do this for testing b/c XMLHttpRequest is mocked, not XDomainRequest.
+    if ("development" !== 'test' &&
+        typeof window !== 'undefined' &&
+        window.XDomainRequest && !('withCredentials' in request) &&
+        !isURLSameOrigin(config.url)) {
+      request = new window.XDomainRequest();
+      loadEvent = 'onload';
+      xDomain = true;
+      request.onprogress = function handleProgress() {};
+      request.ontimeout = function handleTimeout() {};
+    }
+
+    // HTTP basic authentication
+    if (config.auth) {
+      var username = config.auth.username || '';
+      var password = config.auth.password || '';
+      requestHeaders.Authorization = 'Basic ' + btoa(username + ':' + password);
+    }
+
+    request.open(config.method.toUpperCase(), buildURL(config.url, config.params, config.paramsSerializer), true);
+
+    // Set the request timeout in MS
+    request.timeout = config.timeout;
+
+    // Listen for ready state
+    request[loadEvent] = function handleLoad() {
+      if (!request || (request.readyState !== 4 && !xDomain)) {
+        return;
+      }
+
+      // The request errored out and we didn't get a response, this will be
+      // handled by onerror instead
+      // With one exception: request that using file: protocol, most browsers
+      // will return status as 0 even though it's a successful request
+      if (request.status === 0 && !(request.responseURL && request.responseURL.indexOf('file:') === 0)) {
+        return;
+      }
+
+      // Prepare the response
+      var responseHeaders = 'getAllResponseHeaders' in request ? parseHeaders(request.getAllResponseHeaders()) : null;
+      var responseData = !config.responseType || config.responseType === 'text' ? request.responseText : request.response;
+      var response = {
+        data: responseData,
+        // IE sends 1223 instead of 204 (https://github.com/mzabriskie/axios/issues/201)
+        status: request.status === 1223 ? 204 : request.status,
+        statusText: request.status === 1223 ? 'No Content' : request.statusText,
+        headers: responseHeaders,
+        config: config,
+        request: request
+      };
+
+      settle(resolve, reject, response);
+
+      // Clean up request
+      request = null;
+    };
+
+    // Handle low level network errors
+    request.onerror = function handleError() {
+      // Real errors are hidden from us by the browser
+      // onerror should only fire if it's a network error
+      reject(createError('Network Error', config, null, request));
+
+      // Clean up request
+      request = null;
+    };
+
+    // Handle timeout
+    request.ontimeout = function handleTimeout() {
+      reject(createError('timeout of ' + config.timeout + 'ms exceeded', config, 'ECONNABORTED',
+        request));
+
+      // Clean up request
+      request = null;
+    };
+
+    // Add xsrf header
+    // This is only done if running in a standard browser environment.
+    // Specifically not if we're in a web worker, or react-native.
+    if (utils.isStandardBrowserEnv()) {
+      var cookies = __webpack_require__(29);
+
+      // Add xsrf header
+      var xsrfValue = (config.withCredentials || isURLSameOrigin(config.url)) && config.xsrfCookieName ?
+          cookies.read(config.xsrfCookieName) :
+          undefined;
+
+      if (xsrfValue) {
+        requestHeaders[config.xsrfHeaderName] = xsrfValue;
+      }
+    }
+
+    // Add headers to the request
+    if ('setRequestHeader' in request) {
+      utils.forEach(requestHeaders, function setRequestHeader(val, key) {
+        if (typeof requestData === 'undefined' && key.toLowerCase() === 'content-type') {
+          // Remove Content-Type if data is undefined
+          delete requestHeaders[key];
+        } else {
+          // Otherwise add header to the request
+          request.setRequestHeader(key, val);
+        }
+      });
+    }
+
+    // Add withCredentials to request if needed
+    if (config.withCredentials) {
+      request.withCredentials = true;
+    }
+
+    // Add responseType to request if needed
+    if (config.responseType) {
+      try {
+        request.responseType = config.responseType;
+      } catch (e) {
+        // Expected DOMException thrown by browsers not compatible XMLHttpRequest Level 2.
+        // But, this can be suppressed for 'json' type as it can be parsed by default 'transformResponse' function.
+        if (config.responseType !== 'json') {
+          throw e;
+        }
+      }
+    }
+
+    // Handle progress if needed
+    if (typeof config.onDownloadProgress === 'function') {
+      request.addEventListener('progress', config.onDownloadProgress);
+    }
+
+    // Not all browsers support upload events
+    if (typeof config.onUploadProgress === 'function' && request.upload) {
+      request.upload.addEventListener('progress', config.onUploadProgress);
+    }
+
+    if (config.cancelToken) {
+      // Handle cancellation
+      config.cancelToken.promise.then(function onCanceled(cancel) {
+        if (!request) {
+          return;
+        }
+
+        request.abort();
+        reject(cancel);
+        // Clean up request
+        request = null;
+      });
+    }
+
+    if (requestData === undefined) {
+      requestData = null;
+    }
+
+    // Send the request
+    request.send(requestData);
+  });
+};
+
+
+/***/ }),
+/* 6 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var enhanceError = __webpack_require__(24);
+
+/**
+ * Create an Error with the specified message, config, error code, request and response.
+ *
+ * @param {string} message The error message.
+ * @param {Object} config The config.
+ * @param {string} [code] The error code (for example, 'ECONNABORTED').
+ * @param {Object} [request] The request.
+ * @param {Object} [response] The response.
+ * @returns {Error} The created error.
+ */
+module.exports = function createError(message, config, code, request, response) {
+  var error = new Error(message);
+  return enhanceError(error, config, code, request, response);
+};
+
+
+/***/ }),
+/* 7 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = function isCancel(value) {
+  return !!(value && value.__CANCEL__);
+};
+
+
+/***/ }),
+/* 8 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/**
+ * A `Cancel` is an object that is thrown when an operation is canceled.
+ *
+ * @class
+ * @param {string=} message The message.
+ */
+function Cancel(message) {
+  this.message = message;
+}
+
+Cancel.prototype.toString = function toString() {
+  return 'Cancel' + (this.message ? ': ' + this.message : '');
+};
+
+Cancel.prototype.__CANCEL__ = true;
+
+module.exports = Cancel;
+
+
+/***/ }),
+/* 9 */
 /***/ (function(module, exports) {
 
 /*
@@ -653,7 +948,7 @@ function toComment(sourceMap) {
 
 
 /***/ }),
-/* 4 */
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /*
@@ -874,306 +1169,11 @@ function applyToTag (styleElement, obj) {
 
 
 /***/ }),
-/* 5 */
-/***/ (function(module, exports) {
-
-var g;
-
-// This works in non-strict mode
-g = (function() {
-	return this;
-})();
-
-try {
-	// This works if eval is allowed (see CSP)
-	g = g || Function("return this")() || (1,eval)("this");
-} catch(e) {
-	// This works if the window reference is available
-	if(typeof window === "object")
-		g = window;
-}
-
-// g can still be undefined, but nothing to do about it...
-// We return undefined, instead of nothing here, so it's
-// easier to handle this case. if(!global) { ...}
-
-module.exports = g;
-
-
-/***/ }),
-/* 6 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-module.exports = function bind(fn, thisArg) {
-  return function wrap() {
-    var args = new Array(arguments.length);
-    for (var i = 0; i < args.length; i++) {
-      args[i] = arguments[i];
-    }
-    return fn.apply(thisArg, args);
-  };
-};
-
-
-/***/ }),
-/* 7 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var utils = __webpack_require__(0);
-var settle = __webpack_require__(23);
-var buildURL = __webpack_require__(25);
-var parseHeaders = __webpack_require__(26);
-var isURLSameOrigin = __webpack_require__(27);
-var createError = __webpack_require__(8);
-var btoa = (typeof window !== 'undefined' && window.btoa && window.btoa.bind(window)) || __webpack_require__(28);
-
-module.exports = function xhrAdapter(config) {
-  return new Promise(function dispatchXhrRequest(resolve, reject) {
-    var requestData = config.data;
-    var requestHeaders = config.headers;
-
-    if (utils.isFormData(requestData)) {
-      delete requestHeaders['Content-Type']; // Let the browser set it
-    }
-
-    var request = new XMLHttpRequest();
-    var loadEvent = 'onreadystatechange';
-    var xDomain = false;
-
-    // For IE 8/9 CORS support
-    // Only supports POST and GET calls and doesn't returns the response headers.
-    // DON'T do this for testing b/c XMLHttpRequest is mocked, not XDomainRequest.
-    if ("development" !== 'test' &&
-        typeof window !== 'undefined' &&
-        window.XDomainRequest && !('withCredentials' in request) &&
-        !isURLSameOrigin(config.url)) {
-      request = new window.XDomainRequest();
-      loadEvent = 'onload';
-      xDomain = true;
-      request.onprogress = function handleProgress() {};
-      request.ontimeout = function handleTimeout() {};
-    }
-
-    // HTTP basic authentication
-    if (config.auth) {
-      var username = config.auth.username || '';
-      var password = config.auth.password || '';
-      requestHeaders.Authorization = 'Basic ' + btoa(username + ':' + password);
-    }
-
-    request.open(config.method.toUpperCase(), buildURL(config.url, config.params, config.paramsSerializer), true);
-
-    // Set the request timeout in MS
-    request.timeout = config.timeout;
-
-    // Listen for ready state
-    request[loadEvent] = function handleLoad() {
-      if (!request || (request.readyState !== 4 && !xDomain)) {
-        return;
-      }
-
-      // The request errored out and we didn't get a response, this will be
-      // handled by onerror instead
-      // With one exception: request that using file: protocol, most browsers
-      // will return status as 0 even though it's a successful request
-      if (request.status === 0 && !(request.responseURL && request.responseURL.indexOf('file:') === 0)) {
-        return;
-      }
-
-      // Prepare the response
-      var responseHeaders = 'getAllResponseHeaders' in request ? parseHeaders(request.getAllResponseHeaders()) : null;
-      var responseData = !config.responseType || config.responseType === 'text' ? request.responseText : request.response;
-      var response = {
-        data: responseData,
-        // IE sends 1223 instead of 204 (https://github.com/mzabriskie/axios/issues/201)
-        status: request.status === 1223 ? 204 : request.status,
-        statusText: request.status === 1223 ? 'No Content' : request.statusText,
-        headers: responseHeaders,
-        config: config,
-        request: request
-      };
-
-      settle(resolve, reject, response);
-
-      // Clean up request
-      request = null;
-    };
-
-    // Handle low level network errors
-    request.onerror = function handleError() {
-      // Real errors are hidden from us by the browser
-      // onerror should only fire if it's a network error
-      reject(createError('Network Error', config, null, request));
-
-      // Clean up request
-      request = null;
-    };
-
-    // Handle timeout
-    request.ontimeout = function handleTimeout() {
-      reject(createError('timeout of ' + config.timeout + 'ms exceeded', config, 'ECONNABORTED',
-        request));
-
-      // Clean up request
-      request = null;
-    };
-
-    // Add xsrf header
-    // This is only done if running in a standard browser environment.
-    // Specifically not if we're in a web worker, or react-native.
-    if (utils.isStandardBrowserEnv()) {
-      var cookies = __webpack_require__(29);
-
-      // Add xsrf header
-      var xsrfValue = (config.withCredentials || isURLSameOrigin(config.url)) && config.xsrfCookieName ?
-          cookies.read(config.xsrfCookieName) :
-          undefined;
-
-      if (xsrfValue) {
-        requestHeaders[config.xsrfHeaderName] = xsrfValue;
-      }
-    }
-
-    // Add headers to the request
-    if ('setRequestHeader' in request) {
-      utils.forEach(requestHeaders, function setRequestHeader(val, key) {
-        if (typeof requestData === 'undefined' && key.toLowerCase() === 'content-type') {
-          // Remove Content-Type if data is undefined
-          delete requestHeaders[key];
-        } else {
-          // Otherwise add header to the request
-          request.setRequestHeader(key, val);
-        }
-      });
-    }
-
-    // Add withCredentials to request if needed
-    if (config.withCredentials) {
-      request.withCredentials = true;
-    }
-
-    // Add responseType to request if needed
-    if (config.responseType) {
-      try {
-        request.responseType = config.responseType;
-      } catch (e) {
-        // Expected DOMException thrown by browsers not compatible XMLHttpRequest Level 2.
-        // But, this can be suppressed for 'json' type as it can be parsed by default 'transformResponse' function.
-        if (config.responseType !== 'json') {
-          throw e;
-        }
-      }
-    }
-
-    // Handle progress if needed
-    if (typeof config.onDownloadProgress === 'function') {
-      request.addEventListener('progress', config.onDownloadProgress);
-    }
-
-    // Not all browsers support upload events
-    if (typeof config.onUploadProgress === 'function' && request.upload) {
-      request.upload.addEventListener('progress', config.onUploadProgress);
-    }
-
-    if (config.cancelToken) {
-      // Handle cancellation
-      config.cancelToken.promise.then(function onCanceled(cancel) {
-        if (!request) {
-          return;
-        }
-
-        request.abort();
-        reject(cancel);
-        // Clean up request
-        request = null;
-      });
-    }
-
-    if (requestData === undefined) {
-      requestData = null;
-    }
-
-    // Send the request
-    request.send(requestData);
-  });
-};
-
-
-/***/ }),
-/* 8 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var enhanceError = __webpack_require__(24);
-
-/**
- * Create an Error with the specified message, config, error code, request and response.
- *
- * @param {string} message The error message.
- * @param {Object} config The config.
- * @param {string} [code] The error code (for example, 'ECONNABORTED').
- * @param {Object} [request] The request.
- * @param {Object} [response] The response.
- * @returns {Error} The created error.
- */
-module.exports = function createError(message, config, code, request, response) {
-  var error = new Error(message);
-  return enhanceError(error, config, code, request, response);
-};
-
-
-/***/ }),
-/* 9 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-module.exports = function isCancel(value) {
-  return !!(value && value.__CANCEL__);
-};
-
-
-/***/ }),
-/* 10 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-/**
- * A `Cancel` is an object that is thrown when an operation is canceled.
- *
- * @class
- * @param {string=} message The message.
- */
-function Cancel(message) {
-  this.message = message;
-}
-
-Cancel.prototype.toString = function toString() {
-  return 'Cancel' + (this.message ? ': ' + this.message : '');
-};
-
-Cancel.prototype.__CANCEL__ = true;
-
-module.exports = Cancel;
-
-
-/***/ }),
 /* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(12);
-module.exports = __webpack_require__(57);
+module.exports = __webpack_require__(52);
 
 
 /***/ }),
@@ -1200,7 +1200,6 @@ window.Vue = __webpack_require__(37);
 Vue.component('example', __webpack_require__(38));
 Vue.component('equipments', __webpack_require__(41));
 Vue.component('courses', __webpack_require__(47));
-Vue.component('shifts', __webpack_require__(52));
 
 var app = new Vue({
   el: '#app'
@@ -18354,7 +18353,7 @@ if (token) {
   }
 }.call(this));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5), __webpack_require__(15)(module)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3), __webpack_require__(15)(module)))
 
 /***/ }),
 /* 15 */
@@ -20781,9 +20780,9 @@ module.exports = __webpack_require__(18);
 
 
 var utils = __webpack_require__(0);
-var bind = __webpack_require__(6);
+var bind = __webpack_require__(4);
 var Axios = __webpack_require__(20);
-var defaults = __webpack_require__(2);
+var defaults = __webpack_require__(1);
 
 /**
  * Create an instance of Axios
@@ -20816,9 +20815,9 @@ axios.create = function create(instanceConfig) {
 };
 
 // Expose Cancel & CancelToken
-axios.Cancel = __webpack_require__(10);
+axios.Cancel = __webpack_require__(8);
 axios.CancelToken = __webpack_require__(35);
-axios.isCancel = __webpack_require__(9);
+axios.isCancel = __webpack_require__(7);
 
 // Expose all/spread
 axios.all = function all(promises) {
@@ -20866,7 +20865,7 @@ function isSlowBuffer (obj) {
 "use strict";
 
 
-var defaults = __webpack_require__(2);
+var defaults = __webpack_require__(1);
 var utils = __webpack_require__(0);
 var InterceptorManager = __webpack_require__(30);
 var dispatchRequest = __webpack_require__(31);
@@ -21168,7 +21167,7 @@ module.exports = function normalizeHeaderName(headers, normalizedName) {
 "use strict";
 
 
-var createError = __webpack_require__(8);
+var createError = __webpack_require__(6);
 
 /**
  * Resolve or reject a Promise based on response status.
@@ -21587,8 +21586,8 @@ module.exports = InterceptorManager;
 
 var utils = __webpack_require__(0);
 var transformData = __webpack_require__(32);
-var isCancel = __webpack_require__(9);
-var defaults = __webpack_require__(2);
+var isCancel = __webpack_require__(7);
+var defaults = __webpack_require__(1);
 
 /**
  * Throws a `Cancel` if cancellation has been requested.
@@ -21740,7 +21739,7 @@ module.exports = function combineURLs(baseURL, relativeURL) {
 "use strict";
 
 
-var Cancel = __webpack_require__(10);
+var Cancel = __webpack_require__(8);
 
 /**
  * A `CancelToken` is an object that can be used to request cancellation of an operation.
@@ -32029,14 +32028,14 @@ Vue$3.compile = compileToFunctions;
 
 module.exports = Vue$3;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ }),
 /* 38 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var normalizeComponent = __webpack_require__(1)
+var normalizeComponent = __webpack_require__(2)
 /* script */
 var __vue_script__ = __webpack_require__(39)
 /* template */
@@ -32158,7 +32157,7 @@ function injectStyle (ssrContext) {
   if (disposed) return
   __webpack_require__(42)
 }
-var normalizeComponent = __webpack_require__(1)
+var normalizeComponent = __webpack_require__(2)
 /* script */
 var __vue_script__ = __webpack_require__(45)
 /* template */
@@ -32210,7 +32209,7 @@ var content = __webpack_require__(43);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(4)("97f825be", content, false);
+var update = __webpack_require__(10)("97f825be", content, false);
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -32229,7 +32228,7 @@ if(false) {
 /* 43 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(3)(undefined);
+exports = module.exports = __webpack_require__(9)(undefined);
 // imports
 
 
@@ -32397,7 +32396,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       input: { code: '', name: '' }
     };
   },
-  props: ['url', 'loading'],
+  props: {
+    url: { type: String, required: true },
+    loading: { type: String, required: true },
+    permissions: { type: Object, required: true }
+  },
   computed: {
     filtered: function filtered() {
       var _this = this;
@@ -32421,77 +32424,101 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     fillEquipments: function fillEquipments() {
       var _this2 = this;
 
-      this.turnLoad();
-      axios.get(this.url + '/api/equipmenttypes').then(function (res) {
-        _this2.equipments = [];
-        res.data.forEach(function (dt) {
-          _this2.equipments.push({ id: dt.id, name: dt.name, code: dt.code, editabled: false });
+      if (this.permissions.find(function (cb) {
+        return cb.name === 'list equipment_types';
+      })) {
+        this.turnLoad();
+        axios.get(this.url + '/api/equipmenttypes').then(function (res) {
+          _this2.equipments = [];
+          res.data.forEach(function (dt) {
+            _this2.equipments.push({ id: dt.id, name: dt.name, code: dt.code, editabled: false });
+          });
+        }).catch(function (er) {
+          alert(er);
         });
-      }).catch(function (er) {
-        alert(er);
-      });
-      this.turnLoad();
+        this.turnLoad();
+      } else {
+        alert('No tiene privilegios para listar equipos');
+      }
     },
     saveEquipment: function saveEquipment() {
       var _this3 = this;
 
-      if (this.input.name.trim() != '' && this.input.code.trim() != '') {
-        this.turnLoad();
-        axios.post(this.url + '/api/equipmenttypes', { name: this.input.name, code: this.input.code.toUpperCase() }).then(function (res) {
-          switch (res.data) {
-            case 'duplicate':
-              alert('Ya existe un equipo con este código');
-              break;
-            default:
-              _this3.equipments.push({ id: res.data.id, name: res.data.name, code: res.data.code, editabled: false });
-          }
-          _this3.clearInput();
-        }).catch(function (er) {
-          alert(er);
-          location.reload();
-        });
-        this.turnLoad();
+      if (this.permissions.find(function (cb) {
+        return cb.name === 'create equipment_types';
+      })) {
+        if (this.input.name.trim() != '' && this.input.code.trim() != '') {
+          this.turnLoad();
+          axios.post(this.url + '/api/equipmenttypes', { name: this.input.name, code: this.input.code.toUpperCase() }).then(function (res) {
+            switch (res.data) {
+              case 'duplicate':
+                alert('Ya existe un equipo con este código');
+                break;
+              default:
+                _this3.equipments.push({ id: res.data.id, name: res.data.name, code: res.data.code, editabled: false });
+            }
+            _this3.clearInput();
+          }).catch(function (er) {
+            alert(er);
+            location.reload();
+          });
+          this.turnLoad();
+        } else {
+          alert('Antes rellene los campos: Nombre y Código');
+        }
       } else {
-        alert('Antes rellene los campos: Nombre y Código');
+        alert('No tiene privilegios para create nuevos equipos');
       }
     },
     updateEquipment: function updateEquipment(val) {
       var _this4 = this;
 
-      if (val.name.trim() != '' || val.code.trim() != '') {
-        this.turnLoad();
-        axios.put(this.url + '/api/equipmenttypes/' + val.id, {
-          name: val.name, code: val.code.toUpperCase()
-        }).then(function (res) {
-          _this4.turnEditabled(val);
-        }).catch(function (er) {
-          alert(er);
-          location.reload();
-        });
-        this.turnLoad();
+      if (this.permissions.find(function (cb) {
+        return cb.name === 'edit equipment_types';
+      })) {
+        if (val.name.trim() != '' || val.code.trim() != '') {
+          this.turnLoad();
+          axios.put(this.url + '/api/equipmenttypes/' + val.id, {
+            name: val.name, code: val.code.toUpperCase()
+          }).then(function (res) {
+            _this4.turnEditabled(val);
+          }).catch(function (er) {
+            alert(er);
+            location.reload();
+          });
+          this.turnLoad();
+        } else {
+          alert('El campo nombre o código no pueden estar vacios');
+        }
       } else {
-        alert('El campo nombre o código no pueden estar vacios');
+        alert('No tiene privilegios para editar equipos');
       }
     },
     deleteEquipment: function deleteEquipment(val, index) {
       var _this5 = this;
 
-      if (confirm('Desea borrar este registro')) {
-        this.turnLoad();
-        axios.delete(this.url + '/api/equipmenttypes/' + val.id).then(function (res) {
-          switch (res.data) {
-            case true:
-              _this5.equipments.splice(index, 1);
-              break;
-            case 'unique':
-              alert('Otros campos dependen de este, primero borre las dependencias');
-              break;
-          }
-        }).catch(function (er) {
-          alert(er);
-          location.reload();
-        });
-        this.turnLoad();
+      if (this.permissions.find(function (cb) {
+        return cb.name === 'delete equipment_types';
+      })) {
+        if (confirm('Desea borrar este registro')) {
+          this.turnLoad();
+          axios.delete(this.url + '/api/equipmenttypes/' + val.id).then(function (res) {
+            switch (res.data) {
+              case true:
+                _this5.equipments.splice(index, 1);
+                break;
+              case 'unique':
+                alert('Otros campos dependen de este, primero borre las dependencias');
+                break;
+            }
+          }).catch(function (er) {
+            alert(er);
+            location.reload();
+          });
+          this.turnLoad();
+        }
+      } else {
+        alert('No tiene privilegios para eliminar equipos');
       }
     }
   },
@@ -32914,7 +32941,7 @@ function injectStyle (ssrContext) {
   if (disposed) return
   __webpack_require__(48)
 }
-var normalizeComponent = __webpack_require__(1)
+var normalizeComponent = __webpack_require__(2)
 /* script */
 var __vue_script__ = __webpack_require__(50)
 /* template */
@@ -32966,7 +32993,7 @@ var content = __webpack_require__(49);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(4)("215ed432", content, false);
+var update = __webpack_require__(10)("215ed432", content, false);
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -32985,7 +33012,7 @@ if(false) {
 /* 49 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(3)(undefined);
+exports = module.exports = __webpack_require__(9)(undefined);
 // imports
 
 
@@ -33120,7 +33147,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       input: { code: '', name: '' }
     };
   },
-  props: ['url', 'loading'],
+  //props: ['url', 'loading', 'permissions'],
+  props: {
+    url: { type: String, required: true },
+    loading: { type: String, required: true },
+    permissions: { type: Object, required: true }
+  },
   computed: {
     filtered: function filtered() {
       var _this = this;
@@ -33144,87 +33176,112 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     fillCourses: function fillCourses() {
       var _this2 = this;
 
-      this.turnLoad();
-      axios.get(this.url + '/api/courses').then(function (res) {
-        _this2.courses = [];
-        res.data.forEach(function (dt) {
-          _this2.courses.push({
-            id: dt.id,
-            name: dt.name,
-            code: dt.code,
-            editabled: false
+      if (this.permissions.find(function (cb) {
+        return cb.name === 'list courses';
+      })) {
+        this.turnLoad();
+        axios.get(this.url + '/api/courses').then(function (res) {
+          _this2.courses = [];
+          res.data.forEach(function (dt) {
+            _this2.courses.push({
+              id: dt.id,
+              name: dt.name,
+              code: dt.code,
+              editabled: false
+            });
           });
+        }).catch(function (er) {
+          alert(er);
         });
-      }).catch(function (er) {
-        alert(er);
-      });
-      this.turnLoad();
+        this.turnLoad();
+      } else {
+        alert('No tiene privilegios para listar las competencias');
+      }
     },
     saveCourses: function saveCourses() {
       var _this3 = this;
 
-      if (this.input.name.trim() != '' && this.input.code.trim() != '') {
-        this.turnLoad();
-        axios.post(this.url + '/api/courses', { name: this.input.name, code: this.input.code.toUpperCase() }).then(function (res) {
-          switch (res.data) {
-            case 'duplicate':
-              alert('Ya existe un competencia con este código');
-              break;
-            default:
-              _this3.courses.push({
-                id: res.data.id,
-                name: res.data.name,
-                code: res.data.code,
-                editabled: false
-              });
-          }
-          _this3.clearInput();
-        }).catch(function (er) {
-          alert(er);
-          location.reload();
-        });
-        this.turnLoad();
+      if (this.permissions.find(function (cb) {
+        return cb.name === 'create courses';
+      })) {
+        if (this.input.name.trim() != '' && this.input.code.trim() != '') {
+          this.turnLoad();
+          axios.post(this.url + '/api/courses', { name: this.input.name, code: this.input.code.toUpperCase() }).then(function (res) {
+            switch (res.data) {
+              case 'duplicate':
+                alert('Ya existe un competencia con este código');
+                break;
+              default:
+                _this3.courses.push({
+                  id: res.data.id,
+                  name: res.data.name,
+                  code: res.data.code,
+                  editabled: false
+                });
+            }
+            _this3.clearInput();
+          }).catch(function (er) {
+            alert(er);
+            location.reload();
+          });
+          this.turnLoad();
+        } else {
+          alert('Antes rellene los campos: Nombre y Código');
+        }
       } else {
-        alert('Antes rellene los campos: Nombre y Código');
+        alert('No tiene privilegios para crear competencias');
+        this.clearInput();
       }
     },
     updateCourses: function updateCourses(val) {
       var _this4 = this;
 
-      if (val.name.trim() != '' || val.code.trim() != '') {
-        this.turnLoad();
-        axios.put(this.url + '/api/courses/' + val.id, {
-          name: val.name, code: val.code.toUpperCase()
-        }).then(function (res) {
-          _this4.turnEditabled(val);
-        }).catch(function (er) {
-          alert(er);
-          location.reload();
-        });
-        this.turnLoad();
+      if (this.permissions.find(function (cb) {
+        return cb.name === 'edit courses';
+      })) {
+        if (val.name.trim() != '' || val.code.trim() != '') {
+          this.turnLoad();
+          axios.put(this.url + '/api/courses/' + val.id, {
+            name: val.name, code: val.code.toUpperCase()
+          }).then(function (res) {
+            _this4.turnEditabled(val);
+          }).catch(function (er) {
+            alert(er);
+            location.reload();
+          });
+          this.turnLoad();
+        } else {
+          alert('El campo nombre o código no pueden estar vacios');
+        }
       } else {
-        alert('El campo nombre o código no pueden estar vacios');
+        alert('No tiene privilegios para editar competencias');
       }
     },
     deleteCourses: function deleteCourses(val, index) {
       var _this5 = this;
 
-      if (confirm('Desea borrar este registro')) {
-        this.turnLoad();
-        axios.delete(this.url + '/api/courses/' + val.id).then(function (res) {
-          switch (res.data) {
-            case true:
-              _this5.courses.splice(index, 1);
-              break;
-            case 'unique':
-              alert('Otros campos dependen de este, primero borre las dependencias');
-              break;
-          }
-        }).catch(function (er) {
-          alert(er);
-          location.reload();
-        });
-        this.turnLoad();
+      if (this.permissions.find(function (cb) {
+        return cb.name === 'delete courses';
+      })) {
+        if (confirm('Desea borrar este registro')) {
+          this.turnLoad();
+          axios.delete(this.url + '/api/courses/' + val.id).then(function (res) {
+            switch (res.data) {
+              case true:
+                _this5.courses.splice(index, 1);
+                break;
+              case 'unique':
+                alert('Otros campos dependen de este, primero borre las dependencias');
+                break;
+            }
+          }).catch(function (er) {
+            alert(er);
+            location.reload();
+          });
+          this.turnLoad();
+        }
+      } else {
+        alert('No tiene privilegios para eliminar competencias');
       }
     }
   },
@@ -33640,742 +33697,9 @@ if (false) {
 
 /***/ }),
 /* 52 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var disposed = false
-function injectStyle (ssrContext) {
-  if (disposed) return
-  __webpack_require__(53)
-}
-var normalizeComponent = __webpack_require__(1)
-/* script */
-var __vue_script__ = __webpack_require__(55)
-/* template */
-var __vue_template__ = __webpack_require__(56)
-/* styles */
-var __vue_styles__ = injectStyle
-/* scopeId */
-var __vue_scopeId__ = "data-v-adf87a0e"
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __vue_script__,
-  __vue_template__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "resources\\assets\\js\\components\\Shifts.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] Shifts.vue: functional components are not supported with templates, they should use render functions.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-adf87a0e", Component.options)
-  } else {
-    hotAPI.reload("data-v-adf87a0e", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-/* 53 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(54);
-if(typeof content === 'string') content = [[module.i, content, '']];
-if(content.locals) module.exports = content.locals;
-// add the styles to the DOM
-var update = __webpack_require__(4)("353f4c44", content, false);
-// Hot Module Replacement
-if(false) {
- // When the styles change, update the <style> tags
- if(!content.locals) {
-   module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-adf87a0e\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Shifts.vue", function() {
-     var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-adf87a0e\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Shifts.vue");
-     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-     update(newContent);
-   });
- }
- // When the module is disposed, remove the <style> tags
- module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-/* 54 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(3)(undefined);
-// imports
-
-
-// module
-exports.push([module.i, "\n.loading-img[data-v-adf87a0e] {\n  position: fixed;\n  right:10px;\n  top:30px;\n  margin:10px;\n  display: block;\n  width:120px;\n  height:120px;\n  z-index: 9999;\n}\n#search[data-v-adf87a0e] {\n  margin: 10px !important;\n}\n\n", ""]);
-
-// exports
-
-
-/***/ }),
-/* 55 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-  name: 'shifts',
-  data: function data() {
-    return {
-      criteria: '',
-      loadstate: false,
-      shifts: [],
-      input: { code: '', name: '' }
-    };
-  },
-  props: ['url', 'loading'],
-  computed: {
-    filtered: function filtered() {
-      var _this = this;
-
-      return this.shifts.filter(function (callback) {
-        return callback.name.toLowerCase().indexOf(_this.criteria.toLowerCase()) !== -1 || callback.code.toUpperCase().indexOf(_this.criteria.toUpperCase()) !== -1;
-      });
-    }
-  },
-  methods: {
-    turnLoad: function turnLoad() {
-      this.loadstate = !this.loadstate;
-    },
-    turnEditabled: function turnEditabled(val) {
-      val.editabled = !val.editabled;
-    },
-    clearInput: function clearInput() {
-      this.input.name = '';
-      this.input.code = '';
-    },
-    fillshifts: function fillshifts() {
-      var _this2 = this;
-
-      this.turnLoad();
-      axios.get(this.url + '/api/shifts').then(function (res) {
-        _this2.shifts = [];
-        res.data.forEach(function (dt) {
-          _this2.shifts.push({
-            id: dt.id,
-            name: dt.name,
-            code: dt.code,
-            editabled: false
-          });
-        });
-      }).catch(function (er) {
-        alert(er);
-      });
-      this.turnLoad();
-    },
-    saveshifts: function saveshifts() {
-      var _this3 = this;
-
-      if (this.input.name.trim() != '' && this.input.code.trim() != '') {
-        this.turnLoad();
-        axios.post(this.url + '/api/shifts', { name: this.input.name, code: this.input.code.toUpperCase() }).then(function (res) {
-          switch (res.data) {
-            case 'duplicate':
-              alert('Ya existe un competencia con este código');
-              break;
-            default:
-              _this3.shifts.push({
-                id: res.data.id,
-                name: res.data.name,
-                code: res.data.code,
-                editabled: false
-              });
-          }
-          _this3.clearInput();
-        }).catch(function (er) {
-          alert(er);
-          location.reload();
-        });
-        this.turnLoad();
-      } else {
-        alert('Antes rellene los campos: Nombre y Código');
-      }
-    },
-    updateshifts: function updateshifts(val) {
-      var _this4 = this;
-
-      if (val.name.trim() != '' || val.code.trim() != '') {
-        this.turnLoad();
-        axios.put(this.url + '/api/shifts/' + val.id, {
-          name: val.name, code: val.code.toUpperCase()
-        }).then(function (res) {
-          _this4.turnEditabled(val);
-        }).catch(function (er) {
-          alert(er);
-          location.reload();
-        });
-        this.turnLoad();
-      } else {
-        alert('El campo nombre o código no pueden estar vacios');
-      }
-    },
-    deleteshifts: function deleteshifts(val, index) {
-      var _this5 = this;
-
-      if (confirm('Desea borrar este registro')) {
-        this.turnLoad();
-        axios.delete(this.url + '/api/shifts/' + val.id).then(function (res) {
-          switch (res.data) {
-            case true:
-              _this5.shifts.splice(index, 1);
-              break;
-            case 'unique':
-              alert('Otros campos dependen de este, primero borre las dependencias');
-              break;
-          }
-        }).catch(function (er) {
-          alert(er);
-          location.reload();
-        });
-        this.turnLoad();
-      }
-    }
-  },
-  created: function created() {
-    this.fillshifts();
-  }
-});
-
-/***/ }),
-/* 56 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c("div", { attrs: { id: "shifts" } }, [
-    _c("img", {
-      directives: [
-        {
-          name: "show",
-          rawName: "v-show",
-          value: this.loadstate,
-          expression: "this.loadstate"
-        }
-      ],
-      staticClass: "loading-img",
-      attrs: { src: _vm.loading, alt: "no-image" }
-    }),
-    _vm._v(" "),
-    _vm._m(0),
-    _vm._v(" "),
-    _c("section", { staticClass: "content" }, [
-      _c("div", { staticClass: "container-fluid" }, [
-        _c("div", { staticClass: "row" }, [
-          _c("div", { staticClass: "col-md-7" }, [
-            _c("div", { staticClass: "box" }, [
-              _c("div", { staticClass: "box-header with-border" }, [
-                _vm._m(1),
-                _vm._v(" "),
-                _c(
-                  "button",
-                  {
-                    staticClass: "btn btn-xs btn-default pull-right",
-                    attrs: { type: "button" },
-                    on: {
-                      click: function($event) {
-                        _vm.fillshifts()
-                      }
-                    }
-                  },
-                  [_c("i", { staticClass: "fa fa-refresh" })]
-                )
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "box-content" }, [
-                _c("div", { staticClass: "row" }, [
-                  _c("div", { staticClass: "col-md-12" }, [
-                    _c(
-                      "div",
-                      { staticClass: "input-group", attrs: { id: "search" } },
-                      [
-                        _c("input", {
-                          directives: [
-                            {
-                              name: "model",
-                              rawName: "v-model",
-                              value: _vm.criteria,
-                              expression: "criteria"
-                            }
-                          ],
-                          staticClass: "form-control",
-                          attrs: {
-                            type: "text",
-                            placeholder: "Buscar",
-                            disabled: ""
-                          },
-                          domProps: { value: _vm.criteria },
-                          on: {
-                            input: function($event) {
-                              if ($event.target.composing) {
-                                return
-                              }
-                              _vm.criteria = $event.target.value
-                            }
-                          }
-                        }),
-                        _vm._v(" "),
-                        _c("span", { staticClass: "input-group-btn" }, [
-                          _c(
-                            "button",
-                            {
-                              staticClass: "btn btn-default",
-                              attrs: { type: "button" },
-                              on: {
-                                click: function($event) {
-                                  _vm.criteria = ""
-                                }
-                              }
-                            },
-                            [_c("i", { staticClass: "fa fa-trash" })]
-                          )
-                        ])
-                      ]
-                    )
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("table", { staticClass: "table table-striped" }, [
-                  _vm._m(2),
-                  _vm._v(" "),
-                  _c(
-                    "tbody",
-                    _vm._l(_vm.filtered, function(val, index) {
-                      return _c("tr", [
-                        _c("td", [
-                          _c("input", {
-                            directives: [
-                              {
-                                name: "model",
-                                rawName: "v-model",
-                                value: val.name,
-                                expression: "val.name"
-                              }
-                            ],
-                            staticClass: "form-control",
-                            attrs: { type: "text", disabled: !val.editabled },
-                            domProps: { value: val.name },
-                            on: {
-                              input: function($event) {
-                                if ($event.target.composing) {
-                                  return
-                                }
-                                val.name = $event.target.value
-                              }
-                            }
-                          })
-                        ]),
-                        _vm._v(" "),
-                        _c("td", [
-                          _c("input", {
-                            directives: [
-                              {
-                                name: "model",
-                                rawName: "v-model",
-                                value: val.code,
-                                expression: "val.code"
-                              }
-                            ],
-                            staticClass: "form-control",
-                            staticStyle: { "text-transform": "uppercase" },
-                            attrs: { type: "text", disabled: !val.editabled },
-                            domProps: { value: val.code },
-                            on: {
-                              input: function($event) {
-                                if ($event.target.composing) {
-                                  return
-                                }
-                                val.code = $event.target.value
-                              }
-                            }
-                          })
-                        ]),
-                        _vm._v(" "),
-                        _c("td", [
-                          _c(
-                            "button",
-                            {
-                              directives: [
-                                {
-                                  name: "show",
-                                  rawName: "v-show",
-                                  value: val.editabled,
-                                  expression: "val.editabled"
-                                }
-                              ],
-                              staticClass: "btn btn-success btn-sm",
-                              attrs: { type: "button" },
-                              on: {
-                                click: function($event) {
-                                  _vm.updateshifts(val)
-                                }
-                              }
-                            },
-                            [_c("i", { staticClass: "fa fa-floppy-o" })]
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "button",
-                            {
-                              staticClass: "btn btn-warning btn-sm",
-                              attrs: {
-                                type: "button",
-                                disabled: val.editabled
-                              },
-                              on: {
-                                click: function($event) {
-                                  _vm.turnEditabled(val)
-                                }
-                              }
-                            },
-                            [_c("i", { staticClass: "fa fa-pencil" })]
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "button",
-                            {
-                              staticClass: "btn btn-danger btn-sm",
-                              attrs: {
-                                type: "button",
-                                disabled: val.editabled
-                              },
-                              on: {
-                                click: function($event) {
-                                  _vm.deleteshifts(val, index)
-                                }
-                              }
-                            },
-                            [_c("i", { staticClass: "fa fa-close" })]
-                          )
-                        ])
-                      ])
-                    })
-                  )
-                ])
-              ])
-            ])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "col-md-5" }, [
-            _c("div", { staticClass: "box" }, [
-              _vm._m(3),
-              _vm._v(" "),
-              _c("div", { staticClass: "box-content" }, [
-                _c("div", { staticClass: "container-fluid" }, [
-                  _c("div", { staticClass: "row" }, [
-                    _c("form", { staticClass: "form form-horizontal" }, [
-                      _c("div", { staticClass: "form-group" }, [
-                        _c(
-                          "label",
-                          {
-                            staticClass: "control-label col-md-3",
-                            attrs: { for: "" }
-                          },
-                          [_vm._v("Nombre")]
-                        ),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "col-md-6" }, [
-                          _c("input", {
-                            directives: [
-                              {
-                                name: "model",
-                                rawName: "v-model",
-                                value: _vm.input.name,
-                                expression: "input.name"
-                              }
-                            ],
-                            staticClass: "form-control",
-                            attrs: { type: "text", placeholder: "Nombre" },
-                            domProps: { value: _vm.input.name },
-                            on: {
-                              input: function($event) {
-                                if ($event.target.composing) {
-                                  return
-                                }
-                                _vm.input.name = $event.target.value
-                              }
-                            }
-                          })
-                        ])
-                      ]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "form-group" }, [
-                        _c(
-                          "label",
-                          {
-                            staticClass: "control-label col-md-3",
-                            attrs: { for: "" }
-                          },
-                          [_vm._v("Código")]
-                        ),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "col-md-6" }, [
-                          _c("input", {
-                            directives: [
-                              {
-                                name: "model",
-                                rawName: "v-model",
-                                value: _vm.input.code,
-                                expression: "input.code"
-                              }
-                            ],
-                            staticClass: "form-control",
-                            staticStyle: { "text-transform": "uppercase" },
-                            attrs: { type: "text", placeholder: "Código" },
-                            domProps: { value: _vm.input.code },
-                            on: {
-                              input: function($event) {
-                                if ($event.target.composing) {
-                                  return
-                                }
-                                _vm.input.code = $event.target.value
-                              }
-                            }
-                          })
-                        ])
-                      ]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "form-group" }, [
-                        _c("label", {
-                          staticClass: "control-label col-md-3",
-                          attrs: { for: "" }
-                        }),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "col-md-6" }, [
-                          _c(
-                            "button",
-                            {
-                              staticClass: "btn btn-default",
-                              attrs: { type: "button" },
-                              on: { click: _vm.clearInput }
-                            },
-                            [
-                              _vm._v(
-                                "\n                          Limpiar\n                          "
-                              ),
-                              _c("i", { staticClass: "fa fa-trash-o" })
-                            ]
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "button",
-                            {
-                              staticClass: "btn btn-primary",
-                              attrs: { type: "button" },
-                              on: { click: _vm.saveshifts }
-                            },
-                            [
-                              _vm._v(
-                                "\n                          Agregar\n                          "
-                              ),
-                              _c("i", { staticClass: "fa fa-plus-circle" })
-                            ]
-                          )
-                        ])
-                      ])
-                    ])
-                  ])
-                ])
-              ])
-            ])
-          ])
-        ])
-      ])
-    ])
-  ])
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("section", { staticClass: "content-header" }, [
-      _c("h1", [
-        _vm._v("\n      Competencias\n      "),
-        _c("small", [_vm._v("Administrar")])
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("h3", { staticClass: "box-title" }, [
-      _c("i", { staticClass: "fa fa-truck" }),
-      _vm._v(" Competencias")
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("thead", [
-      _c("tr", [
-        _c("th", [_vm._v("Nombre")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Código")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Controles")])
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "box-header with-title" }, [
-      _c("h3", { staticClass: "box-title" }, [
-        _c("i", { staticClass: "fa fa-plus-circle" }),
-        _vm._v(" Agregar Competencias")
-      ])
-    ])
-  }
-]
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-adf87a0e", module.exports)
-  }
-}
-
-/***/ }),
-/* 57 */
 /***/ (function(module, exports) {
 
-// removed by extract-text-webpack-plugin
+throw new Error("Module build failed: ModuleBuildError: Module build failed: Error: Node Sass does not yet support your current environment: Windows 32-bit with Unsupported runtime (59)\nFor more information on which environments are supported please see:\nhttps://github.com/sass/node-sass/releases/tag/v4.5.3\n    at module.exports (c:\\xampp\\htdocs\\safety2\\node_modules\\node-sass\\lib\\binding.js:13:13)\n    at Object.<anonymous> (c:\\xampp\\htdocs\\safety2\\node_modules\\node-sass\\lib\\index.js:14:35)\n    at Module._compile (module.js:660:30)\n    at Object.Module._extensions..js (module.js:671:10)\n    at Module.load (module.js:573:32)\n    at tryModuleLoad (module.js:513:12)\n    at Function.Module._load (module.js:505:3)\n    at Module.require (module.js:604:17)\n    at require (internal/module.js:11:18)\n    at Object.<anonymous> (c:\\xampp\\htdocs\\safety2\\node_modules\\sass-loader\\lib\\loader.js:3:14)\n    at Module._compile (module.js:660:30)\n    at Object.Module._extensions..js (module.js:671:10)\n    at Module.load (module.js:573:32)\n    at tryModuleLoad (module.js:513:12)\n    at Function.Module._load (module.js:505:3)\n    at Module.require (module.js:604:17)\n    at require (internal/module.js:11:18)\n    at loadLoader (c:\\xampp\\htdocs\\safety2\\node_modules\\loader-runner\\lib\\loadLoader.js:13:17)\n    at iteratePitchingLoaders (c:\\xampp\\htdocs\\safety2\\node_modules\\loader-runner\\lib\\LoaderRunner.js:169:2)\n    at iteratePitchingLoaders (c:\\xampp\\htdocs\\safety2\\node_modules\\loader-runner\\lib\\LoaderRunner.js:165:10)\n    at c:\\xampp\\htdocs\\safety2\\node_modules\\loader-runner\\lib\\LoaderRunner.js:173:18\n    at loadLoader (c:\\xampp\\htdocs\\safety2\\node_modules\\loader-runner\\lib\\loadLoader.js:36:3)\n    at iteratePitchingLoaders (c:\\xampp\\htdocs\\safety2\\node_modules\\loader-runner\\lib\\LoaderRunner.js:169:2)\n    at iteratePitchingLoaders (c:\\xampp\\htdocs\\safety2\\node_modules\\loader-runner\\lib\\LoaderRunner.js:165:10)\n    at c:\\xampp\\htdocs\\safety2\\node_modules\\loader-runner\\lib\\LoaderRunner.js:173:18\n    at loadLoader (c:\\xampp\\htdocs\\safety2\\node_modules\\loader-runner\\lib\\loadLoader.js:36:3)\n    at iteratePitchingLoaders (c:\\xampp\\htdocs\\safety2\\node_modules\\loader-runner\\lib\\LoaderRunner.js:169:2)\n    at iteratePitchingLoaders (c:\\xampp\\htdocs\\safety2\\node_modules\\loader-runner\\lib\\LoaderRunner.js:165:10)\n    at c:\\xampp\\htdocs\\safety2\\node_modules\\loader-runner\\lib\\LoaderRunner.js:173:18\n    at loadLoader (c:\\xampp\\htdocs\\safety2\\node_modules\\loader-runner\\lib\\loadLoader.js:36:3)\n    at runLoaders (c:\\xampp\\htdocs\\safety2\\node_modules\\webpack\\lib\\NormalModule.js:195:19)\n    at c:\\xampp\\htdocs\\safety2\\node_modules\\loader-runner\\lib\\LoaderRunner.js:364:11\n    at c:\\xampp\\htdocs\\safety2\\node_modules\\loader-runner\\lib\\LoaderRunner.js:170:18\n    at loadLoader (c:\\xampp\\htdocs\\safety2\\node_modules\\loader-runner\\lib\\loadLoader.js:27:11)\n    at iteratePitchingLoaders (c:\\xampp\\htdocs\\safety2\\node_modules\\loader-runner\\lib\\LoaderRunner.js:169:2)\n    at iteratePitchingLoaders (c:\\xampp\\htdocs\\safety2\\node_modules\\loader-runner\\lib\\LoaderRunner.js:165:10)\n    at c:\\xampp\\htdocs\\safety2\\node_modules\\loader-runner\\lib\\LoaderRunner.js:173:18\n    at loadLoader (c:\\xampp\\htdocs\\safety2\\node_modules\\loader-runner\\lib\\loadLoader.js:36:3)\n    at iteratePitchingLoaders (c:\\xampp\\htdocs\\safety2\\node_modules\\loader-runner\\lib\\LoaderRunner.js:169:2)\n    at iteratePitchingLoaders (c:\\xampp\\htdocs\\safety2\\node_modules\\loader-runner\\lib\\LoaderRunner.js:165:10)\n    at c:\\xampp\\htdocs\\safety2\\node_modules\\loader-runner\\lib\\LoaderRunner.js:173:18\n    at loadLoader (c:\\xampp\\htdocs\\safety2\\node_modules\\loader-runner\\lib\\loadLoader.js:36:3)\n    at iteratePitchingLoaders (c:\\xampp\\htdocs\\safety2\\node_modules\\loader-runner\\lib\\LoaderRunner.js:169:2)\n    at iteratePitchingLoaders (c:\\xampp\\htdocs\\safety2\\node_modules\\loader-runner\\lib\\LoaderRunner.js:165:10)\n    at c:\\xampp\\htdocs\\safety2\\node_modules\\loader-runner\\lib\\LoaderRunner.js:173:18\n    at loadLoader (c:\\xampp\\htdocs\\safety2\\node_modules\\loader-runner\\lib\\loadLoader.js:36:3)\n    at iteratePitchingLoaders (c:\\xampp\\htdocs\\safety2\\node_modules\\loader-runner\\lib\\LoaderRunner.js:169:2)\n    at runLoaders (c:\\xampp\\htdocs\\safety2\\node_modules\\loader-runner\\lib\\LoaderRunner.js:362:2)\n    at NormalModule.doBuild (c:\\xampp\\htdocs\\safety2\\node_modules\\webpack\\lib\\NormalModule.js:182:3)\n    at NormalModule.build (c:\\xampp\\htdocs\\safety2\\node_modules\\webpack\\lib\\NormalModule.js:275:15)\n    at Compilation.buildModule (c:\\xampp\\htdocs\\safety2\\node_modules\\webpack\\lib\\Compilation.js:149:10)\n    at moduleFactory.create (c:\\xampp\\htdocs\\safety2\\node_modules\\webpack\\lib\\Compilation.js:447:10)\n    at factory (c:\\xampp\\htdocs\\safety2\\node_modules\\webpack\\lib\\NormalModuleFactory.js:241:5)\n    at applyPluginsAsyncWaterfall (c:\\xampp\\htdocs\\safety2\\node_modules\\webpack\\lib\\NormalModuleFactory.js:94:13)\n    at c:\\xampp\\htdocs\\safety2\\node_modules\\tapable\\lib\\Tapable.js:268:11\n    at NormalModuleFactory.params.normalModuleFactory.plugin (c:\\xampp\\htdocs\\safety2\\node_modules\\webpack\\lib\\CompatibilityPlugin.js:52:5)\n    at NormalModuleFactory.applyPluginsAsyncWaterfall (c:\\xampp\\htdocs\\safety2\\node_modules\\tapable\\lib\\Tapable.js:272:13)\n    at resolver (c:\\xampp\\htdocs\\safety2\\node_modules\\webpack\\lib\\NormalModuleFactory.js:69:10)\n    at process.nextTick (c:\\xampp\\htdocs\\safety2\\node_modules\\webpack\\lib\\NormalModuleFactory.js:194:7)\n    at process._tickCallback (internal/process/next_tick.js:150:11)");
 
 /***/ })
 /******/ ]);

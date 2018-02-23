@@ -16,7 +16,10 @@ class EmployeesEquipmentTypesCreate extends Migration
       Schema::create('employees_equipment_types', function(Blueprint $table) {
         $table->increments('id');
         $table->integer('employee_id')->unsigned();  // Employees foreign key
-        $table->integer('equipment_type_id')->unsigned(); // equipment_types foreign key
+        $table->integer('equipment_type_id')->unsigned(); // Equipment_types foreign key
+        $table->date('date')->nullable(); // Equipment type Asignation date
+        $table->string('filepath', 255)->nullable(); // Hard copy of document or certificate
+        $table->boolean('carnet_print')->default(0); // Print in carnet?
         $table->unique(['employee_id', 'equipment_type_id']); // Unique for avoid duplicates
         $table->timestamps();
       });

@@ -10,7 +10,9 @@
         "jorgejavierleon/laravelpnotify": "~1.0",
         "laravel/framework": "5.5.*",
         "laravel/tinker": "~1.0",
-        "laravelcollective/html": "^5.4.0"
+        "laravelcollective/html": "^5.4.0",
+        "lavela/phpjasper": "^2.0",
+        "spatie/laravel-permission": "^2.7"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

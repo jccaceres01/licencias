@@ -5,7 +5,7 @@ use App\Employees;
 use Faker\Factory as Faker;
 use App\Projects;
 use App\Countries;
-use App\Shifts;
+use App\Groups;
 
 class EmployeesTableSeeder extends Seeder
 {
@@ -75,7 +75,7 @@ class EmployeesTableSeeder extends Seeder
             ->first(),
           'status' => $status[rand(0, sizeof($status)-1)],
           'employee_type' => $empType,
-          'shift_id' => Shifts::inRandomOrder()->take(1)->pluck('id')->first(),
+          'group_id' => Groups::inRandomOrder()->take(1)->pluck('id')->first(),
           'country_id' => Countries::inRandomOrder()->take(1)->pluck('id')
             ->first()
         ]);
@@ -91,10 +91,10 @@ class EmployeesTableSeeder extends Seeder
         $project->save();
       }
 
-      foreach(Shifts::all() as $shift) {
+      foreach(Groups::all() as $group) {
         $sup = $supervisors->pop();
-        $shift->employee_id = $sup->id;
-        $shift->save();
+        $group->employee_id = $sup->id;
+        $group->save();
       }
     }
 }

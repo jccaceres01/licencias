@@ -46,6 +46,7 @@
           </tr>
         </thead>
         <tbody>
+          @can('list employees')
           @foreach($employees as $employee)
           <tr>
             <td><img class="img-responsive img-circle" style="border: solid 2px darkgray;width:35px; height:35px;" src="{{ ($employee->imgpath != null) ? asset('storage/'.$employee->imgpath) : asset('storage/img/page/no-image.png')}}" data-toggle="tooltip" data-placement="top" title="{{ $employee->code }}"></td>
@@ -54,14 +55,17 @@
             <td>{{ $employee->firstnames }}</td>
             <td>{{ $employee->lastnames }}</td>
             <td>
-              <a href="{{ route('employees.show', $employee->id )}}" class="btn btn-info btn-xs"> <i class="fa fa-eye"></i></a>
-              <a href="{{ route('employees.edit', $employee->id )}}" class="btn btn-warning btn-xs"> <i class="fa fa-pencil"></i></a>
+              @can('view employees')<a href="{{ route('employees.show', $employee->id )}}" class="btn btn-info btn-xs"> <i class="fa fa-eye"></i></a>@endcan
+              @can('edit employees')<a href="{{ route('employees.edit', $employee->id )}}" class="btn btn-warning btn-xs"> <i class="fa fa-pencil"></i></a>@endcan
+              @can('delete employees')
               {{Form::open(['route' => ['employees.destroy', $employee->id], 'method' => 'DELETE', 'class' => 'inline', 'onsubmit' => 'return confirm("¿Quiere borrar este registro?")'])}}
-              <button type="submit" class="btn btn-danger btn-xs"><i class="fa fa-remove"></i></a>
+              <button type="submit" class="btn btn-danger btn-xs"><i class="fa fa-remove"></i></button>
               {{Form::close()}}
+              @endcan
             </td>
           </tr>
           @endforeach
+          @endcan
         </tbody>
       </table>
       <div class="text-center">

@@ -63,7 +63,7 @@ class CreateEmployeesTable extends Migration
             'mecanico',
             'operador'
           ])->nullable();
-          $table->integer('shift_id')->unsigned()->nullable();
+          $table->integer('group_id')->unsigned()->nullable();
           $table->timestamps();
         });
     }

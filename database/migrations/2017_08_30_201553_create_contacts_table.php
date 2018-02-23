@@ -22,7 +22,7 @@ class CreateContactsTable extends Migration
             $table->string('cell', 45)->nullable();
             $table->string('address', 250)->nullable();
             $table->enum('relation', [
-              'conyugue',
+              'conyuge',
               'padre',
               'madre',
               'otros familiares',
