@@ -1,12 +1,17 @@
 @extends ('layouts.main')
 
 @section('head')
-  <style>
-    #map {
-      height: 400px;
-      width: 100%;
-     }
-  </style>
+
+<!-- select2 css stylesheet -->
+<link rel="stylesheet" href="{{ asset('plugins/select2/select2.min.css')}}">
+<link rel="stylesheet" href="{{ asset('plugins/select2/select2-bootstrap.min.css')}}">
+
+<style>
+  #map {
+    height: 400px;
+    width: 100%;
+   }
+</style>
 @endsection
 
 
@@ -173,9 +178,20 @@
 @endsection
 
 @section('script')
+<!-- select2 library  -->
+<script src="{{ asset('plugins/select2/select2.min.js') }}" charset="utf-8"></script>
+<!-- Google maps api include -->
 <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCym39eienlEA3T19C0-bs0aDoZQdPlQn0&callback=initMap"></script>
 <script type="text/javascript">
 
+  /**
+   * Select2 init elements
+   */
+  $('#country_id').select2({theme: 'bootstrap'})
+
+  /**
+   * Google maps api init function
+   */
   function initMap() {
 
     var initPos = {lat: 18.896443, lng: -75.451212};

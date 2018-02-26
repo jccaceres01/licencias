@@ -36,17 +36,22 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
   @yield('head')
 </head>
-<body class="hold-transition skin-blue sidebar-mini">
+<body class="hold-transition skin-yellow sidebar-mini">
 <!-- Site wrapper -->
 <div class="wrapper">
 
   <header class="main-header">
     <!-- Logo -->
-    <a href="../../index2.html" class="logo">
+    <a href="{{ url('/') }}" class="logo">
       <!-- mini logo for sidebar mini 50x50 pixels -->
-      <span class="logo-mini"><strong>Scc</strong></span>
+      <span class="logo-mini"><strong>SCC</strong></span>
       <!-- logo for regular state and mobile devices -->
-      <span class="logo-lg"><strong>{{ config('app.name', 'Agenet')}}</strong></span>
+      <span class="logo-lg">
+        <strong>
+          <img src="{{ asset('storage/img/page/logo.png')}}" alt="" class="img img-responsive" style="width:50px; height:50px; display: inline">
+          {{ config('app.name', 'Sococo')}}
+        </strong>
+      </span>
     </a>
     <!-- Header Navbar: style can be found in header.less -->
     <nav class="navbar navbar-static-top">

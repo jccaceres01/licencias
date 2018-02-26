@@ -1,6 +1,11 @@
 @extends('layouts.main')
 
 @section('head')
+
+<!-- Links to select2 themes -->
+<link rel="stylesheet" href="{{ asset('plugins/select2/select2.min.css')}}">
+<link rel="stylesheet" href="{{ asset('plugins/select2/select2-bootstrap.min.css')}}">
+
 <style media="screen">
   .delete-btn {
     border-radius: 100%;
@@ -86,7 +91,7 @@
             <span><strong><i class="fa fa-user-secret"></i> Supervisor: </strong> @empty($employee->group) No definido @else {{ $employee->group->supervisor->fullName }}</span> @endempty <br>
             <span><strong><i class="fa fa-flag"></i> Nacionalidad: </strong> @empty($employee->country ) No definido @else {{ $employee->country->name }} @endempty <br>
             <span><strong><i class="fa fa-id-card"></i> Codigo: </strong> {{ $employee->code }}</span><br>
-            <span><strong><i class="fa fa-id-card-o"></i> Cedula: </strong> {{ $employee->identify_document }}</span><br>
+            <span><strong><i class="fa fa-id-card-o"></i> Cedula: </strong> {{ $employee->identity_document }}</span><br>
             <span><strong><i class="fa fa-user-circle"></i> Nombres: </strong> {{ $employee->firstnames }}</span><br>
             <span><strong><i class="fa fa-user-circle"></i> Apellidos: </strong> {{ $employee->lastnames }}</span><br>
             <span><strong><i class="fa fa-user-circle"></i> Apodo: </strong> {{ $employee->nickname }}</span><br>
@@ -190,10 +195,10 @@
               <thead>
                 <tr>
                   <th>Código</th>
-                  <th><i class="fa fa-calendar"></i></th>
-                  <th><i class="fa fa-folder-open"></i></th>
-                  <th><i class="fa fa fa-drivers-license-o"></i></th>
-                  <th><i class="fa fa-cog"></i></th>
+                  <th><i class="fa fa-calendar" title="Fecha" data-toggle="tooltip" data-placement="top"></i></th>
+                  <th><i class="fa fa-folder-open" title="Archivo / Certificado" data-toggle="tooltip" data-placement="top"></i></th>
+                  <th><i class="fa fa fa-drivers-license-o" title="Imprimir en licencia" data-toggle="tooltip" data-placement="top"></i></th>
+                  <th><i class="fa fa-cog" title="Opciones" data-toggle="tooltip" data-placement="top"></i></th>
                 </tr>
                 <tbody>
                   @foreach($employee->equipmentTypes as $equipment)
@@ -250,10 +255,10 @@
               <thead>
                 <tr>
                   <th>Código</th>
-                  <th><i class="fa fa-calendar"></i></th>
-                  <th><i class="fa fa-folder-open"></i></th>
-                  <th><i class="fa fa fa-drivers-license-o"></i></th>
-                  <th><i class="fa fa-cog"></i></th>
+                  <th><i class="fa fa-calendar" title="Fecha" data-toggle="tooltip" data-placement="top"></i></th>
+                  <th><i class="fa fa-folder-open" title="Archivo / Certificado" data-toggle="tooltip" data-placement="top"></i></th>
+                  <th><i class="fa fa fa-drivers-license-o" title="Imprimir en licencia" data-toggle="tooltip" data-placement="top"></i></th>
+                  <th><i class="fa fa-cog" title="Opciones" data-toggle="tooltip" data-placement="top"></i></th>
                 </tr>
                 <tbody>
                   @foreach($employee->courses as $course)
@@ -316,7 +321,7 @@
         <div class="form-group">
           {{Form::label('equipment_type_id', 'Equipo *', ['class' => 'control-label col-md-3']) }}
           <div class="col-md-6">
-            {{Form::select('equipment_type_id', $equipmentTypes, old('equipment_type_id'), ['class' => 'form-control', 'placeholder' => 'Equipo'])}}
+            {{Form::select('equipment_type_id', $equipmentTypes, old('equipment_type_id'), ['class' => 'form-control', 'placeholder' => 'Equipo', 'style' => 'width: 100%'])}}
           </div>
         </div>
 
@@ -378,7 +383,7 @@
         <div class="form-group">
           {{Form::label('course_id', 'Competencia', ['class' => 'control-label col-md-3']) }}
           <div class="col-md-6">
-            {{Form::select('course_id', $courses, old('course_id'), ['class' => 'form-control', 'placeholder' => 'Competencia'])}}
+            {{Form::select('course_id', $courses, old('course_id'), ['class' => 'form-control', 'placeholder' => 'Competencia', 'style' => 'width:100%'])}}
           </div>
         </div>
 
@@ -520,4 +525,19 @@
     </div>
   </div>
 </div>
+@endsection
+
+@section('script')
+<!-- select2 library  -->
+<script src="{{ asset('plugins/select2/select2.min.js') }}" charset="utf-8"></script>
+<script type="text/javascript">
+  $('#equipment_type_id').select2({
+    theme: 'bootstrap',
+    dropdownParent: $('#equipments-modal')
+  })
+  $('#course_id').select2({
+    theme: 'bootstrap',
+    dropdownParent: $('#courses-modal')
+  })
+</script>
 @endsection

@@ -18,7 +18,7 @@ class GroupsController extends Controller
     public function index(Request $request)
     {
       $groups = Groups::search($request->criteria)->orderBy('name')
-        ->paginate(5);
+        ->paginate(10);
       return view('groups.index')->with('groups', $groups);
     }
 

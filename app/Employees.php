@@ -13,7 +13,7 @@ class Employees extends Model
     'firstnames',
     'lastnames',
     'nickname',
-    'identify_document',
+    'identity_document',
     'birthdate',
     'hiredate',
     'gender',
@@ -94,12 +94,12 @@ class Employees extends Model
       return $query->where('code', 'like', '%'.$criteria.'%')
         ->orWhere('firstnames', 'like', '%'.$criteria.'%')
         ->orWhere('lastnames', 'like', '%'.$criteria.'%')
-        ->orWhere('identify_document', 'like', '%'.$criteria.'%');
+        ->orWhere('identity_document', 'like', '%'.$criteria.'%');
     }
   }
 
   /**
-   * actives employees scope
+   * Actives and stop employees scope
    */
   public function scopeActive($query) {
     return $query->where('status', 'activo');
@@ -110,6 +110,20 @@ class Employees extends Model
    */
   public function scopeStandby($query) {
     return $query->where('status', 'parado');
+  }
+
+  /**
+   * Actives and standBy employees
+   */
+  public function scopeActiveAndStandBy($query) {
+    return $query->where('status', 'activo')->orWhere('status', 'parado');
+  }
+
+  /**
+   * Cancelado employees query scope
+   */
+  public function scopeDown($query) {
+    return $query->where('status', 'cancelado');
   }
 
   /**

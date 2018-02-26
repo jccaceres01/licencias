@@ -5,6 +5,10 @@
 <meta name="latitude" content="{{$project->latitude }}">
 <meta name="longitude" content="{{ $project->longitude }}">
 
+<!-- select2 css stylesheet -->
+<link rel="stylesheet" href="{{ asset('plugins/select2/select2.min.css')}}">
+<link rel="stylesheet" href="{{ asset('plugins/select2/select2-bootstrap.min.css')}}">
+
 <style>
   #map {
     margin: 3px 3px 3px 3px;
@@ -178,8 +182,20 @@
 @endsection
 
 @section('script')
+<!-- select2 library  -->
+<script src="{{ asset('plugins/select2/select2.min.js') }}" charset="utf-8"></script>
+<!-- Google maps api include -->
 <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCym39eienlEA3T19C0-bs0aDoZQdPlQn0&callback=initMap"></script>
 <script type="text/javascript">
+
+  /**
+   * Select2 init elements
+   */
+  $('#country_id').select2({theme: 'bootstrap'})
+
+  /**
+   * Google maps api init function
+   */
 
   var mLat = parseFloat(document.querySelector('meta[name="latitude"]').getAttribute('content'))
   var mLong = parseFloat(document.querySelector('meta[name="longitude"]').getAttribute('content'))

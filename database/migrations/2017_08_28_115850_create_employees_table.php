@@ -52,7 +52,7 @@ class CreateEmployeesTable extends Migration
           $table->string('drive_license_restriction')->nullable()
             ->default('Ninguna');
           $table->integer('project_id')->unsigned(); // Project foreign key
-          $table->enum('status', ['activo', 'cacelado', 'parado'])
+          $table->enum('status', ['activo', 'cancelado', 'parado'])
             ->default('activo');
           $table->integer('country_id')->unsigned()->nullable(); // Nationality, countries foreign key
           $table->enum('employee_type', [

@@ -1,5 +1,12 @@
 @extends('layouts.main')
 
+@section('head')
+<meta name="no-image" content="{{ asset('storage/img/page/no-image.png')}}">
+<!-- select2 css stylesheet -->
+<link rel="stylesheet" href="{{ asset('plugins/select2/select2.min.css')}}">
+<link rel="stylesheet" href="{{ asset('plugins/select2/select2-bootstrap.min.css')}}">
+@endsection
+
 @section('content')
 <section class="content-header">
   <h1>
@@ -54,13 +61,13 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title" id=""></h4>
+        <h4 class="modal-title" id="">Empleados con equipos autorizados</h4>
       </div>
       {{Form::open(['route' => 'reports.employees.equipments', 'method' => 'GET', 'target' => '_new'])}}
       <div class="modal-body">
         <div class="form-group">
           <label for="">Proyecto</label>
-          {{ Form::select('project_id', $projects, old('project_id'), ['class' => 'form-control', 'required', 'placeholder' => 'Proyecto'])}}
+          {{ Form::select('project_id', $projects, old('project_id'), ['class' => 'form-control', 'required', 'placeholder' => 'Proyecto', 'style' => 'width:100%'])}}
         </div>
       </div>
       <div class="modal-footer">
@@ -71,4 +78,21 @@
     </div>
   </div>
 </div>
+@endsection
+
+@section('script')
+<!-- select2 library  -->
+<script src="{{ asset('plugins/select2/select2.min.js') }}" charset="utf-8"></script>
+
+<script type="text/javascript">
+
+  /**
+   * Initialize select2 fields
+   */
+  $('select[name="project_id"]').select2({
+    theme: 'bootstrap',
+    dropdownParent: $('#employees_equipments')
+  })
+
+</script>
 @endsection

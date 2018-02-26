@@ -4,7 +4,7 @@
 <section class="content-header">
   <h1>
     Lista de Empleados
-    <small>Solo empleados activos</small>
+    <small>Solo empleados activos / Parados </small>
   </h1>
 </section>
 
@@ -12,7 +12,7 @@
   <!-- Default box -->
   <div class="box">
     <div class="box-header with-border">
-      <h3 class="box-title"><i class="fa fa-users"></i> Empleados <span class="badge">{{ App\Employees::count() }}</span></h3>
+      <h3 class="box-title"><i class="fa fa-users"></i> Empleados <span class="badge">{{ App\Employees::activeAndStandBy()->count() }}</span></h3>
 
       <div class="box-tools pull-right">
         <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
@@ -62,6 +62,14 @@
               <button type="submit" class="btn btn-danger btn-xs"><i class="fa fa-remove"></i></button>
               {{Form::close()}}
               @endcan
+              <div class="dropdown inline">
+                <button class="btn dropdown-toggle btn-xs" type="button" id="" data-toggle="dropdown">
+                  <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" role="menu" aria-labelledby="">
+                  @can('edit employees')<li><a href="{{ route('employees.status.down', $employee->id)}}" onclick="return confirm('¿Desea dar de baja al empleado?')"><i class="fa fa-arrow-circle-down"></i> Dar de baja</a></li>@endcan
+                </ul>
+              </div>
             </td>
           </tr>
           @endforeach

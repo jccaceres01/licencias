@@ -32064,9 +32064,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-202baf5c", Component.options)
+    hotAPI.createRecord("data-v-08ec226a", Component.options)
   } else {
-    hotAPI.reload("data-v-202baf5c", Component.options)
+    hotAPI.reload("data-v-08ec226a", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -32144,7 +32144,7 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-202baf5c", module.exports)
+     require("vue-hot-reload-api").rerender("data-v-08ec226a", module.exports)
   }
 }
 
@@ -32165,7 +32165,7 @@ var __vue_template__ = __webpack_require__(46)
 /* styles */
 var __vue_styles__ = injectStyle
 /* scopeId */
-var __vue_scopeId__ = "data-v-a5cd8d26"
+var __vue_scopeId__ = "data-v-6352b454"
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
@@ -32186,9 +32186,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-a5cd8d26", Component.options)
+    hotAPI.createRecord("data-v-6352b454", Component.options)
   } else {
-    hotAPI.reload("data-v-a5cd8d26", Component.options)
+    hotAPI.reload("data-v-6352b454", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -32209,13 +32209,13 @@ var content = __webpack_require__(43);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(10)("97f825be", content, false);
+var update = __webpack_require__(10)("b8125eb2", content, false);
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
  if(!content.locals) {
-   module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-a5cd8d26\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Equipments.vue", function() {
-     var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-a5cd8d26\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Equipments.vue");
+   module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-6352b454\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Equipments.vue", function() {
+     var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-6352b454\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Equipments.vue");
      if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
      update(newContent);
    });
@@ -32233,7 +32233,7 @@ exports = module.exports = __webpack_require__(9)(undefined);
 
 
 // module
-exports.push([module.i, "\n.loading-img[data-v-a5cd8d26] {\n  position: fixed;\n  right:10px;\n  top:30px;\n  margin:10px;\n  display: block;\n  width:120px;\n  height:120px;\n  z-index: 9999;\n}\n#search[data-v-a5cd8d26] {\n  margin: 10px !important;\n}\n\n", ""]);
+exports.push([module.i, "\n.loading-img[data-v-6352b454] {\n  position: fixed;\n  right:10px;\n  top:30px;\n  margin:10px;\n  display: block;\n  width:120px;\n  height:120px;\n  z-index: 9999;\n}\n#search[data-v-6352b454] {\n  margin: 10px !important;\n}\n\n", ""]);
 
 // exports
 
@@ -32928,7 +32928,7 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-a5cd8d26", module.exports)
+     require("vue-hot-reload-api").rerender("data-v-6352b454", module.exports)
   }
 }
 
@@ -32949,7 +32949,7 @@ var __vue_template__ = __webpack_require__(51)
 /* styles */
 var __vue_styles__ = injectStyle
 /* scopeId */
-var __vue_scopeId__ = "data-v-5fd063a0"
+var __vue_scopeId__ = "data-v-6b702a19"
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
@@ -32970,9 +32970,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-5fd063a0", Component.options)
+    hotAPI.createRecord("data-v-6b702a19", Component.options)
   } else {
-    hotAPI.reload("data-v-5fd063a0", Component.options)
+    hotAPI.reload("data-v-6b702a19", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -32993,13 +32993,13 @@ var content = __webpack_require__(49);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(10)("215ed432", content, false);
+var update = __webpack_require__(10)("fa9bc402", content, false);
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
  if(!content.locals) {
-   module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-5fd063a0\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Courses.vue", function() {
-     var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-5fd063a0\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Courses.vue");
+   module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-6b702a19\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Courses.vue", function() {
+     var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-6b702a19\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Courses.vue");
      if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
      update(newContent);
    });
@@ -33017,7 +33017,7 @@ exports = module.exports = __webpack_require__(9)(undefined);
 
 
 // module
-exports.push([module.i, "\n.loading-img[data-v-5fd063a0] {\n  position: fixed;\n  right:10px;\n  top:30px;\n  margin:10px;\n  display: block;\n  width:120px;\n  height:120px;\n  z-index: 9999;\n}\n#search[data-v-5fd063a0] {\n  margin: 10px !important;\n}\n\n", ""]);
+exports.push([module.i, "\n.loading-img[data-v-6b702a19] {\n  position: fixed;\n  right:10px;\n  top:30px;\n  margin:10px;\n  display: block;\n  width:120px;\n  height:120px;\n  z-index: 9999;\n}\n#search[data-v-6b702a19] {\n  margin: 10px !important;\n}\n\n", ""]);
 
 // exports
 
@@ -33691,7 +33691,7 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-5fd063a0", module.exports)
+     require("vue-hot-reload-api").rerender("data-v-6b702a19", module.exports)
   }
 }
 
@@ -33699,7 +33699,7 @@ if (false) {
 /* 52 */
 /***/ (function(module, exports) {
 
-throw new Error("Module build failed: ModuleBuildError: Module build failed: Error: Node Sass does not yet support your current environment: Windows 32-bit with Unsupported runtime (59)\nFor more information on which environments are supported please see:\nhttps://github.com/sass/node-sass/releases/tag/v4.5.3\n    at module.exports (c:\\xampp\\htdocs\\safety2\\node_modules\\node-sass\\lib\\binding.js:13:13)\n    at Object.<anonymous> (c:\\xampp\\htdocs\\safety2\\node_modules\\node-sass\\lib\\index.js:14:35)\n    at Module._compile (module.js:660:30)\n    at Object.Module._extensions..js (module.js:671:10)\n    at Module.load (module.js:573:32)\n    at tryModuleLoad (module.js:513:12)\n    at Function.Module._load (module.js:505:3)\n    at Module.require (module.js:604:17)\n    at require (internal/module.js:11:18)\n    at Object.<anonymous> (c:\\xampp\\htdocs\\safety2\\node_modules\\sass-loader\\lib\\loader.js:3:14)\n    at Module._compile (module.js:660:30)\n    at Object.Module._extensions..js (module.js:671:10)\n    at Module.load (module.js:573:32)\n    at tryModuleLoad (module.js:513:12)\n    at Function.Module._load (module.js:505:3)\n    at Module.require (module.js:604:17)\n    at require (internal/module.js:11:18)\n    at loadLoader (c:\\xampp\\htdocs\\safety2\\node_modules\\loader-runner\\lib\\loadLoader.js:13:17)\n    at iteratePitchingLoaders (c:\\xampp\\htdocs\\safety2\\node_modules\\loader-runner\\lib\\LoaderRunner.js:169:2)\n    at iteratePitchingLoaders (c:\\xampp\\htdocs\\safety2\\node_modules\\loader-runner\\lib\\LoaderRunner.js:165:10)\n    at c:\\xampp\\htdocs\\safety2\\node_modules\\loader-runner\\lib\\LoaderRunner.js:173:18\n    at loadLoader (c:\\xampp\\htdocs\\safety2\\node_modules\\loader-runner\\lib\\loadLoader.js:36:3)\n    at iteratePitchingLoaders (c:\\xampp\\htdocs\\safety2\\node_modules\\loader-runner\\lib\\LoaderRunner.js:169:2)\n    at iteratePitchingLoaders (c:\\xampp\\htdocs\\safety2\\node_modules\\loader-runner\\lib\\LoaderRunner.js:165:10)\n    at c:\\xampp\\htdocs\\safety2\\node_modules\\loader-runner\\lib\\LoaderRunner.js:173:18\n    at loadLoader (c:\\xampp\\htdocs\\safety2\\node_modules\\loader-runner\\lib\\loadLoader.js:36:3)\n    at iteratePitchingLoaders (c:\\xampp\\htdocs\\safety2\\node_modules\\loader-runner\\lib\\LoaderRunner.js:169:2)\n    at iteratePitchingLoaders (c:\\xampp\\htdocs\\safety2\\node_modules\\loader-runner\\lib\\LoaderRunner.js:165:10)\n    at c:\\xampp\\htdocs\\safety2\\node_modules\\loader-runner\\lib\\LoaderRunner.js:173:18\n    at loadLoader (c:\\xampp\\htdocs\\safety2\\node_modules\\loader-runner\\lib\\loadLoader.js:36:3)\n    at runLoaders (c:\\xampp\\htdocs\\safety2\\node_modules\\webpack\\lib\\NormalModule.js:195:19)\n    at c:\\xampp\\htdocs\\safety2\\node_modules\\loader-runner\\lib\\LoaderRunner.js:364:11\n    at c:\\xampp\\htdocs\\safety2\\node_modules\\loader-runner\\lib\\LoaderRunner.js:170:18\n    at loadLoader (c:\\xampp\\htdocs\\safety2\\node_modules\\loader-runner\\lib\\loadLoader.js:27:11)\n    at iteratePitchingLoaders (c:\\xampp\\htdocs\\safety2\\node_modules\\loader-runner\\lib\\LoaderRunner.js:169:2)\n    at iteratePitchingLoaders (c:\\xampp\\htdocs\\safety2\\node_modules\\loader-runner\\lib\\LoaderRunner.js:165:10)\n    at c:\\xampp\\htdocs\\safety2\\node_modules\\loader-runner\\lib\\LoaderRunner.js:173:18\n    at loadLoader (c:\\xampp\\htdocs\\safety2\\node_modules\\loader-runner\\lib\\loadLoader.js:36:3)\n    at iteratePitchingLoaders (c:\\xampp\\htdocs\\safety2\\node_modules\\loader-runner\\lib\\LoaderRunner.js:169:2)\n    at iteratePitchingLoaders (c:\\xampp\\htdocs\\safety2\\node_modules\\loader-runner\\lib\\LoaderRunner.js:165:10)\n    at c:\\xampp\\htdocs\\safety2\\node_modules\\loader-runner\\lib\\LoaderRunner.js:173:18\n    at loadLoader (c:\\xampp\\htdocs\\safety2\\node_modules\\loader-runner\\lib\\loadLoader.js:36:3)\n    at iteratePitchingLoaders (c:\\xampp\\htdocs\\safety2\\node_modules\\loader-runner\\lib\\LoaderRunner.js:169:2)\n    at iteratePitchingLoaders (c:\\xampp\\htdocs\\safety2\\node_modules\\loader-runner\\lib\\LoaderRunner.js:165:10)\n    at c:\\xampp\\htdocs\\safety2\\node_modules\\loader-runner\\lib\\LoaderRunner.js:173:18\n    at loadLoader (c:\\xampp\\htdocs\\safety2\\node_modules\\loader-runner\\lib\\loadLoader.js:36:3)\n    at iteratePitchingLoaders (c:\\xampp\\htdocs\\safety2\\node_modules\\loader-runner\\lib\\LoaderRunner.js:169:2)\n    at runLoaders (c:\\xampp\\htdocs\\safety2\\node_modules\\loader-runner\\lib\\LoaderRunner.js:362:2)\n    at NormalModule.doBuild (c:\\xampp\\htdocs\\safety2\\node_modules\\webpack\\lib\\NormalModule.js:182:3)\n    at NormalModule.build (c:\\xampp\\htdocs\\safety2\\node_modules\\webpack\\lib\\NormalModule.js:275:15)\n    at Compilation.buildModule (c:\\xampp\\htdocs\\safety2\\node_modules\\webpack\\lib\\Compilation.js:149:10)\n    at moduleFactory.create (c:\\xampp\\htdocs\\safety2\\node_modules\\webpack\\lib\\Compilation.js:447:10)\n    at factory (c:\\xampp\\htdocs\\safety2\\node_modules\\webpack\\lib\\NormalModuleFactory.js:241:5)\n    at applyPluginsAsyncWaterfall (c:\\xampp\\htdocs\\safety2\\node_modules\\webpack\\lib\\NormalModuleFactory.js:94:13)\n    at c:\\xampp\\htdocs\\safety2\\node_modules\\tapable\\lib\\Tapable.js:268:11\n    at NormalModuleFactory.params.normalModuleFactory.plugin (c:\\xampp\\htdocs\\safety2\\node_modules\\webpack\\lib\\CompatibilityPlugin.js:52:5)\n    at NormalModuleFactory.applyPluginsAsyncWaterfall (c:\\xampp\\htdocs\\safety2\\node_modules\\tapable\\lib\\Tapable.js:272:13)\n    at resolver (c:\\xampp\\htdocs\\safety2\\node_modules\\webpack\\lib\\NormalModuleFactory.js:69:10)\n    at process.nextTick (c:\\xampp\\htdocs\\safety2\\node_modules\\webpack\\lib\\NormalModuleFactory.js:194:7)\n    at process._tickCallback (internal/process/next_tick.js:150:11)");
+// removed by extract-text-webpack-plugin
 
 /***/ })
 /******/ ]);

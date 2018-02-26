@@ -2,6 +2,11 @@
 
 @section('head')
 <meta name="no-image" content="{{ ($employee->imgpath != null ) ? asset('storage/'.$employee->imgpath) : asset('storage/img/page/no-image.png')}}">
+
+<!-- select2 styles and theme -->
+<link rel="stylesheet" href="{{ asset('plugins/select2/select2.min.css')}}">
+<link rel="stylesheet" href="{{ asset('plugins/select2/select2-bootstrap.min.css')}}">
+
 <style media="screen">
   #imgpath {
     display: none;
@@ -150,10 +155,10 @@
                   </div>
                 </div>
                 <div class="col-md-3">
-                  <!-- identify_document -->
+                  <!-- identity_document -->
                   <div class="form-group">
-                    {{ Form::label('identify_document', 'Cedula *')}}
-                    {{ Form::text('identify_document', old('identify_document'), ['class' => 'form-control', 'placeholder' => 'Cedula'])}}
+                    {{ Form::label('identity_document', 'Cedula *')}}
+                    {{ Form::text('identity_document', old('identity_document'), ['class' => 'form-control', 'placeholder' => 'Cedula'])}}
                   </div>
                 </div>
               </div>
@@ -298,10 +303,25 @@
 @endsection
 
 @section('script')
+<!-- select2 library  -->
+<script src="{{ asset('plugins/select2/select2.min.js') }}" charset="utf-8"></script>
 <script type="text/javascript">
+/**
+ * Initialize select2 fields
+ */
+$('#project_id').select2({theme: 'bootstrap'})
+$('select[name="employee_type"]').select2({theme: 'bootstrap'})
+$('#group_id').select2({theme: 'bootstrap'})
+$('select[name="blood"]').select2({theme: 'bootstrap'})
+$('#country_id').select2({theme: 'bootstrap'})
+$('select[name="gender"]').select2({theme: 'bootstrap'})
+$('select[name="drive_license_category"]').select2({theme: 'bootstrap'})
+
+/**
+ * Image Api code for preview image
+ */
   var prev = document.getElementById('prev')
   var input = document.getElementById('imgpath')
-
 
   input.onchange = function() {
     var reader = new FileReader();

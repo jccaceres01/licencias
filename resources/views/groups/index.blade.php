@@ -46,8 +46,8 @@
                   @foreach($groups as $group)
                   <tr>
                     <td>{{ $group->name }}</td>
-                    <td>{{ $group->supervisor->fullName }}</td>
-                    <td>{{ $group->project->name }}</td>
+                    <td>@empty($group->supervisor) <span>No definido</span> @else {{ $group->supervisor->fullName }} @endempty</td>
+                    <td>@empty($group->project) <span>No Definido</span> @else {{ $group->project->name }} @endempty</td>
                     <td>
                       @can('view groups')<a href="{{ route('groups.show', $group->id)}}" class="btn btn-default btn-xs"><i class="fa fa-eye" data-toggle="tooltip" title="Ver" data-plecement="top"></i></a>@endcan
                       @can('edit groups')<a href="{{ route('groups.edit', $group->id)}}" class="btn btn-warning btn-xs"><i class="fa fa-pencil" data-toggle="tooltip" title="Editar" data-plecement="top"></i></a>@endcan

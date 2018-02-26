@@ -255,13 +255,13 @@
                       <td class="text-center"><i class="fa fa-square-o"></i></td>
                       @endif
                     </tr>
-                    <!-- Shifts permissions view -->
+                    <!-- Groups permissions view -->
                     <tr>
                       <td colspan="2" style="background-color: gray; color: white"> Permisos sobre Turnos </td>
                     </tr>
                     <tr>
                       <td>Listar Turnos</td>
-                      @if ($user->hasPermissionTo('list shifts'))
+                      @if ($user->hasPermissionTo('list groups'))
                       <td class="text-center"><i class="fa fa-check-square-o"></i></td>
                       @else
                       <td class="text-center"><i class="fa fa-square-o"></i></td>
@@ -269,7 +269,7 @@
                     </tr>
                     <tr>
                       <td>Crear Turnos</td>
-                      @if ($user->hasPermissionTo('create shifts'))
+                      @if ($user->hasPermissionTo('create groups'))
                       <td class="text-center"><i class="fa fa-check-square-o"></i></td>
                       @else
                       <td class="text-center"><i class="fa fa-square-o"></i></td>
@@ -277,7 +277,7 @@
                     </tr>
                     <tr>
                       <td>Ver Turnos</td>
-                      @if ($user->hasPermissionTo('view shifts'))
+                      @if ($user->hasPermissionTo('view groups'))
                       <td class="text-center"><i class="fa fa-check-square-o"></i></td>
                       @else
                       <td class="text-center"><i class="fa fa-square-o"></i></td>
@@ -285,7 +285,7 @@
                     </tr>
                     <tr>
                       <td>Modificar Turnos</td>
-                      @if ($user->hasPermissionTo('edit shifts'))
+                      @if ($user->hasPermissionTo('edit groups'))
                       <td class="text-center"><i class="fa fa-check-square-o"></i></td>
                       @else
                       <td class="text-center"><i class="fa fa-square-o"></i></td>
@@ -293,7 +293,7 @@
                     </tr>
                     <tr>
                       <td>Borrar Turnos</td>
-                      @if ($user->hasPermissionTo('delete shifts'))
+                      @if ($user->hasPermissionTo('delete groups'))
                       <td class="text-center"><i class="fa fa-check-square-o"></i></td>
                       @else
                       <td class="text-center"><i class="fa fa-square-o"></i></td>

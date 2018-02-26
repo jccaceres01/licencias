@@ -1,5 +1,13 @@
 @extends ('layouts.main')
 
+@section('head')
+
+<!-- select2 css stylesheet -->
+<link rel="stylesheet" href="{{ asset('plugins/select2/select2.min.css')}}">
+<link rel="stylesheet" href="{{ asset('plugins/select2/select2-bootstrap.min.css')}}">
+
+@endsection
+
 @section('content')
 <section class="content-header">
   <h1>
@@ -93,4 +101,14 @@
 @endsection
 
 @section('script')
+<!-- select2 library  -->
+<script src="{{ asset('plugins/select2/select2.min.js') }}" charset="utf-8"></script>
+<script type="text/javascript">
+/**
+ * Initialize select2 fields
+ */
+$('select[name="employee_id"]').select2({theme: 'bootstrap'})
+$('#project_id').select2({theme: 'bootstrap'})
+
+</script>
 @endsection

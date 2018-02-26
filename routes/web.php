@@ -12,7 +12,7 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('home');
 });
 
 Auth::routes();
@@ -40,6 +40,10 @@ Route::get('groups/index', 'HomeController@groups')->name('groups');
  * Others
  */
 
+
+// Change employee's status to down route
+Route::get('employees/{employee_id}/status/down', 'EmployeesController@down')
+  ->name('employees.status.down');
 // Add equipment to employee
 Route::post('employees/equipmenst/add/{employee_id}',
 'EmployeesController@addEquipment')->name('employees.equipments.add');

@@ -24,7 +24,7 @@ class EmployeesController extends Controller
     public function index(Request $request)
     {
       if (\Auth::user()->can('list employees')) {
-        $emp = Employees::orderBy('code')->search($request->criteria)
+        $emp = Employees::orderBy('code')->activeAndStandBy()->search($request->criteria)
           ->paginate(10);
         return view('employees.index')->with('employees', $emp);
       } else {
@@ -506,6 +506,29 @@ class EmployeesController extends Controller
       \Notify::warning('No tiene privilegios para editar
         competencias asignadas', 'Información');
       return redirect()->back();
+    }
+  }
+
+  /**
+   * Change employee's status to down
+   */
+  public function down($employee_id) {
+
+    $emp = Employees::find($employee_id);
+
+    try {
+        $emp->status = 'cancelado';
+        $emp->save();
+
+        \Notify::success('Empleado puesto de baja', 'Información');
+        return redirect()->back();
+
+    } catch (\Exception $e) {
+      switch ($e->getCode()) {
+        default:
+          \Notify::error( $e->getMessage(), 'Error: '.$e->getCode());
+          return redirect()->back();
+      }
     }
   }
 }

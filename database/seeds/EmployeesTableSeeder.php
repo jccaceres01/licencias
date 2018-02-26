@@ -27,7 +27,7 @@ class EmployeesTableSeeder extends Seeder
         '05 Especial'
       ];
 
-      $status = ['activo', 'cacelado', 'parado'];
+      $status = ['activo', 'cancelado', 'parado'];
 
       $employeeType = [
         'administrativo',
