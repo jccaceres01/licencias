@@ -35,7 +35,7 @@ class ReportsController extends Controller
   public function employeeLicence($employee_id) {
 
     $emp = Employees::find($employee_id);
-    $input_report = storage_path().'/app/reports/licencias_carnet3.jasper';
+    $input_report = storage_path().'/app/reports/carnet3.jasper';
     $output = public_path().'/reports/carnet';
 
     $report = $this->jasper->process(
@@ -55,7 +55,7 @@ class ReportsController extends Controller
   public function employeesEquipments(Request $request) {
     if ($request->has('project_id')) {
 
-      $inputReport = storage_path().'/app/reports/safety2_team_equipment.jasper';
+      $inputReport = storage_path().'/app/reports/team_equipment.jasper';
       $output = public_path().'/reports/team_equipments';
 
       $report = $this->jasper->process(
