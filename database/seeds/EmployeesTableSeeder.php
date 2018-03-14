@@ -5,7 +5,6 @@ use App\Employees;
 use Faker\Factory as Faker;
 use App\Projects;
 use App\Countries;
-use App\Groups;
 
 class EmployeesTableSeeder extends Seeder
 {
@@ -29,22 +28,26 @@ class EmployeesTableSeeder extends Seeder
 
       $status = ['activo', 'cancelado', 'parado'];
 
-      $employeeType = [
-        'administrativo',
-        'mecanico',
-        'operador'
-      ];
+      $employeeType = collect([
+        1 => 'encargado de proyecto',
+        2 => 'administrativo',
+        3 => 'supervisor general',
+        4 => 'supervisor de grupo',
+        5 => 'supervisor',
+        6 => 'mecanico',
+        7 => 'operador'
+      ]);
 
-      for ($i=0; $i<30; $i++) {
+      for ($i=1; $i<31; $i++) {
 
         $empType = null;
 
         if ($i < 3 ) {
           $empType = 'supervisor general';
-        } elseif ($i >= 3 && $i < 7) {
-          $empType = 'supervisor';
+        } elseif ($i >= 4 && $i <= 7) {
+          $empType = 'supervisor de grupo';
         } else {
-          $empType = $employeeType[rand(0, sizeof($employeeType)-1)];
+          $empType = $employeeType->except([3, 4])->random();
         }
 
         Employees::create([
@@ -75,26 +78,9 @@ class EmployeesTableSeeder extends Seeder
             ->first(),
           'status' => $status[rand(0, sizeof($status)-1)],
           'employee_type' => $empType,
-          'group_id' => Groups::inRandomOrder()->take(1)->pluck('id')->first(),
           'country_id' => Countries::inRandomOrder()->take(1)->pluck('id')
             ->first()
         ]);
-      }
-
-      $gSupervisors = Employees::where('employee_type', 'supervisor general')
-        ->get();
-      $supervisors = Employees::where('employee_type', 'supervisor')->get();
-
-      foreach(Projects::all() as $project) {
-        $gSupId = $gSupervisors->pop();
-        $project->employee_id = $gSupId->id;
-        $project->save();
-      }
-
-      foreach(Groups::all() as $group) {
-        $sup = $supervisors->pop();
-        $group->employee_id = $sup->id;
-        $group->save();
       }
     }
 }

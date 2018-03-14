@@ -27,6 +27,13 @@ class Projects extends Model
   }
 
   /**
+   * Get projects' groups
+   */
+  public function groups() {
+    return $this->hasMany('App\Groups', 'project_id', 'id');
+  }
+
+  /**
    * Search projects query scope
    */
   public function scopeSearch($query, $criteria) {

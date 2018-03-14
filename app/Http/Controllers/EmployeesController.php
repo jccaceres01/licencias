@@ -24,9 +24,80 @@ class EmployeesController extends Controller
     public function index(Request $request)
     {
       if (\Auth::user()->can('list employees')) {
-        $emp = Employees::orderBy('code')->activeAndStandBy()->search($request->criteria)
+        $emp = Employees::orderBy('code')->activeAndStandBy()
+          ->search($request->criteria)
           ->paginate(10);
         return view('employees.index')->with('employees', $emp);
+      } else {
+          \Notify::warning('No tiene acceso para ver empleados', 'Información');
+          return redirect()->back();
+      }
+    }
+
+    /**
+     * Get canceled employees
+     */
+    public function getDownEmployees(Request $request) {
+      if (\Auth::user()->can('list employees')) {
+        $downCount = Employees::down()->count();
+        $employees = Employees::down()
+          ->orderBy('code')
+          ->search($request->criteria)
+          ->paginate(10);
+        return view('employees.down')->with([
+          'employees' => $employees,
+          'downCount' => $downCount
+        ]);
+      } else {
+          \Notify::warning('No tiene acceso para ver empleados', 'Información');
+          return redirect()->back();
+      }
+    }
+
+    /**
+     * Get employees with expired licenses
+     */
+    public function expiredLicenses(Request $request) {
+      if (\Auth::user()->can('list employees')) {
+        $today = new \DateTime('today');
+        $emp = Employees::orderBy('code')->activeAndStandBy()
+          ->search($request->criteria)
+          ->where('drive_license_end', '<', $today->format('y-m-d'))
+          ->paginate(10);
+        return view('employees.expired-licenses')->with([
+          'employees' => $emp,
+          'expiredCount' => Employees::activeAndStandBy()
+            ->where('drive_license_end', '<', $today->format('y-m-d'))->count()
+        ]);
+      } else {
+          \Notify::warning('No tiene acceso para ver empleados', 'Información');
+          return redirect()->back();
+      }
+    }
+
+    /**
+     * Show employees with licenses next to expire
+     */
+    public function nextToExpire(Request $request) {
+      if (\Auth::user()->can('list employees')) {
+        $today = new \DateTime('today');
+        $threeMonths = new \DateTime('+3 months');
+
+        $emp = Employees::orderBy('code')->activeAndStandBy()
+          ->search($request->criteria)
+          ->whereBetween('drive_license_end', [
+              $today->format('y-m-d'),
+              $threeMonths->format('y-m-d')
+          ])
+          ->paginate(10);
+        return view('employees.next-to-expired-licenses')->with([
+          'employees' => $emp,
+          'nextToExpireCount' => Employees::activeAndStandBy()
+          ->whereBetween('drive_license_end', [
+              $today->format('y-m-d'),
+              $threeMonths->format('y-m-d')
+          ])->count()
+        ]);
       } else {
           \Notify::warning('No tiene acceso para ver empleados', 'Información');
           return redirect()->back();
@@ -506,6 +577,28 @@ class EmployeesController extends Controller
       \Notify::warning('No tiene privilegios para editar
         competencias asignadas', 'Información');
       return redirect()->back();
+    }
+  }
+
+  /**
+   * Reactivate a down employee
+   */
+  public function up($employee_id) {
+    $emp = Employees::find($employee_id);
+
+    try {
+        $emp->status = 'activo';
+        $emp->save();
+
+        \Notify::success('Empleado reactivado', 'Información');
+        return redirect()->route('employees.show', $emp->id);
+
+    } catch (\Exception $e) {
+      switch ($e->getCode()) {
+        default:
+          \Notify::error( $e->getMessage(), 'Error: '.$e->getCode());
+          return redirect()->back();
+      }
     }
   }
 

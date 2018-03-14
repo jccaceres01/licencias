@@ -16,8 +16,8 @@ class CreateGroupsTable extends Migration
         Schema::create('groups', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name', 45);
-            $table->integer('employee_id')->unsigned()->nullable(); // Shift supervisor
-            $table->integer('project_id')->unsigned()->nullable(); // project of the turn
+            $table->integer('employee_id')->unsigned(); // Shift supervisor
+            $table->integer('project_id')->unsigned(); // project of the turn
             $table->unique(['name', 'employee_id', 'project_id']); // Unique groups
             $table->timestamps();
         });

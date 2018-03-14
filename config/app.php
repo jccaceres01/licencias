@@ -172,6 +172,7 @@ return [
         Collective\Html\HtmlServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
         Spatie\Permission\PermissionServiceProvider::class,
+        ConsoleTVs\Charts\ChartsServiceProvider::class,
 
 
         /*

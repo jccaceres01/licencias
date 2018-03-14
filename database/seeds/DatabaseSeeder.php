@@ -18,13 +18,8 @@ class DatabaseSeeder extends Seeder
       $this->call(CountriesTableSeeder::class);
       $this->call(ProjectsTableSeeder::class);
       $this->call(EquipmentTypesTableSeeder::class);
-      $this->call(GroupsTableSeeder::class);
-
-
-      /**
-       * Test seeders
-       */
       $this->call(EmployeesTableSeeder::class);
+      $this->call(GroupsTableSeeder::class);
       $this->call(EmployeesEquipmentTypesTableSeeder::class);
       $this->call(ContactsTableSeeder::class);
       $this->call(CoursesTableSeeder::class);

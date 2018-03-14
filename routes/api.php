@@ -22,3 +22,13 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
  */
 Route::resource('equipmenttypes', 'Api\EquipmentTypesController');
 Route::resource('courses', 'Api\CoursesController');
+
+
+/**
+ * Functional Api data
+ */
+Route::get('projects/{project_id}/groups',
+  'Api\GroupsController@groupsByProjects');
+/**
+ * Charts api routes
+ */

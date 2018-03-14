@@ -56,9 +56,10 @@ class CreateEmployeesTable extends Migration
             ->default('activo');
           $table->integer('country_id')->unsigned()->nullable(); // Nationality, countries foreign key
           $table->enum('employee_type', [
+            'encargado de proyecto',
             'administrativo',
             'supervisor general',
-            'supervisor de turno',
+            'supervisor de grupo',
             'supervisor',
             'mecanico',
             'operador'

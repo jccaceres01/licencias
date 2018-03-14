@@ -32,7 +32,7 @@ class GroupsController extends Controller
       if (\Auth::user()->can('create groups')) {
         return view('groups.create')->with([
           'supervisors' => Employees::where(
-              'employee_type', 'supervisor'
+              'employee_type', 'supervisor de grupo'
             )->orderBy('firstnames')->get(),
           'projects' => Projects::orderBy('name')->pluck('name', 'id')
         ]);

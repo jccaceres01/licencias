@@ -142,6 +142,13 @@
       <ul class="sidebar-menu" data-widget="tree">
         @auth
         <li class="header">Menu</li>
+        <li>
+          <a href="{{ route('home') }}">
+            <i class="fa fa-dashboard"></i> <span>Inicio</span>
+            <span class="pull-right-container">
+            </span>
+          </a>
+        </li>
         @can('list employees')
         <li class="treeview">
           <a href="#">
@@ -152,7 +159,8 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            @can('list employees')<li><a href="{{ route('employees.index')}}"><i class="fa fa-circle-o"></i> Ver Personal</a></li>@endcan
+            @can('list employees')<li><a href="{{ route('employees.index')}}"><i class="fa fa-circle-o"></i>Personal Activo</a></li>@endcan
+            @can('list employees')<li><a href="{{ route('employees.down')}}"><i class="fa fa-circle-o"></i>Personal dado de baja</a></li>@endcan
             @can('create employees')<li><a href="{{ route('employees.create')}}"><i class="fa fa-plus-circle"></i> Nuevo Empleado</a></li>@endcan
           </ul>
         </li>
