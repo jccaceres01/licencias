@@ -6,6 +6,12 @@ use Illuminate\Http\Request;
 
 class CoursesController extends Controller
 {
+  /**
+   * Contructor
+   */
+  public function __construct() {
+    $this->middleware('auth');
+  }
     /**
      * Display a listing of the resource.
      *

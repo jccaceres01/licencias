@@ -13,6 +13,7 @@ class ReportsController extends Controller
    *
    */
   public function __construct() {
+    $this->middleware('auth');
     $this->jasper = new JasperPHP;
   }
   /**

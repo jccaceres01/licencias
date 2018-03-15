@@ -7,6 +7,12 @@ use App\EquipmentTypes;
 
 class EquipmentTypesController extends Controller
 {
+  /**
+   * Contructor
+   */
+  public function __construct() {
+    $this->middleware('auth');
+  }
     /**
      * Display a listing of the resource.
      *
@@ -43,7 +49,7 @@ class EquipmentTypesController extends Controller
      */
     public function store(Request $request)
     {
-      
+
     }
 
     /**

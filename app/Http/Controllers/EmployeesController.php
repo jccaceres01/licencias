@@ -16,6 +16,12 @@ use App\Groups;
 
 class EmployeesController extends Controller
 {
+  /**
+   * Contructor
+   */
+  public function __construct() {
+    $this->middleware('auth');
+  }
     /**
      * Display a listing of the resource.
      *
