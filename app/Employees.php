@@ -57,7 +57,7 @@ class Employees extends Model
 
   public static $employeeType = [
     'administrativo',
-    'supervisor de turno',
+    'supervisor de grupo',
     'supervisor',
     'mecanico',
     'operador'
