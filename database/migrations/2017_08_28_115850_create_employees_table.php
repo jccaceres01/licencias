@@ -62,7 +62,8 @@ class CreateEmployeesTable extends Migration
             'supervisor de grupo',
             'supervisor',
             'mecanico',
-            'operador'
+            'operador',
+            'planillero'
           ])->nullable();
           $table->integer('group_id')->unsigned()->nullable();
           $table->timestamps();

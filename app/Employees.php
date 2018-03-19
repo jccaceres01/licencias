@@ -56,11 +56,14 @@ class Employees extends Model
   ];
 
   public static $employeeType = [
+    'encargado de proyecto',
     'administrativo',
+    'supervisor general',
     'supervisor de grupo',
     'supervisor',
     'mecanico',
-    'operador'
+    'operador',
+    'planillero'
   ];
 
   public static $status = ['activo', 'cacelado', 'parado'];
