@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "consoletvs/charts",
-            "version": "6.1.3",
+            "version": "6.1.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ConsoleTVs/Charts.git",
-                "reference": "ca85d2def32423f3fa91c6dfb5c1e61490fefb5b"
+                "reference": "e0e2f8685b045e006462bbf27315a1bc67046850"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ConsoleTVs/Charts/zipball/ca85d2def32423f3fa91c6dfb5c1e61490fefb5b",
-                "reference": "ca85d2def32423f3fa91c6dfb5c1e61490fefb5b",
+                "url": "https://api.github.com/repos/ConsoleTVs/Charts/zipball/e0e2f8685b045e006462bbf27315a1bc67046850",
+                "reference": "e0e2f8685b045e006462bbf27315a1bc67046850",
                 "shasum": ""
             },
             "require": {
@@ -48,7 +48,7 @@
                 }
             ],
             "description": "The laravel charting package",
-            "time": "2018-03-11T02:54:34+00:00"
+            "time": "2018-03-14T17:25:32+00:00"
         },
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -1092,16 +1092,16 @@
         },
         {
             "name": "nesbot/carbon",
-            "version": "1.24.2",
+            "version": "1.25.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/briannesbitt/Carbon.git",
-                "reference": "bba6c6e410c6b4317e37a9474aeaa753808c3875"
+                "reference": "cbcf13da0b531767e39eb86e9687f5deba9857b4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/bba6c6e410c6b4317e37a9474aeaa753808c3875",
-                "reference": "bba6c6e410c6b4317e37a9474aeaa753808c3875",
+                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/cbcf13da0b531767e39eb86e9687f5deba9857b4",
+                "reference": "cbcf13da0b531767e39eb86e9687f5deba9857b4",
                 "shasum": ""
             },
             "require": {
@@ -1141,7 +1141,7 @@
                 "datetime",
                 "time"
             ],
-            "time": "2018-03-10T10:10:14+00:00"
+            "time": "2018-03-19T15:50:49+00:00"
         },
         {
             "name": "nikic/php-parser",
@@ -1590,16 +1590,16 @@
         },
         {
             "name": "spatie/laravel-permission",
-            "version": "2.9.1",
+            "version": "2.9.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/laravel-permission.git",
-                "reference": "8f5508a2e4cdc3e6657a31ac33d59bbda0cf5b10"
+                "reference": "9fdf2e850ff27b1ee9705c5f562d2411a7b5ce43"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/laravel-permission/zipball/8f5508a2e4cdc3e6657a31ac33d59bbda0cf5b10",
-                "reference": "8f5508a2e4cdc3e6657a31ac33d59bbda0cf5b10",
+                "url": "https://api.github.com/repos/spatie/laravel-permission/zipball/9fdf2e850ff27b1ee9705c5f562d2411a7b5ce43",
+                "reference": "9fdf2e850ff27b1ee9705c5f562d2411a7b5ce43",
                 "shasum": ""
             },
             "require": {
@@ -1650,7 +1650,7 @@
                 "security",
                 "spatie"
             ],
-            "time": "2018-02-23T16:26:28+00:00"
+            "time": "2018-03-12T16:15:16+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",

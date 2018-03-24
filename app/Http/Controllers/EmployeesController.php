@@ -417,6 +417,58 @@ class EmployeesController extends Controller
   }
 
   /**
+   * Add courses to multiple employees
+   */
+  public function addCourseMassive(Request $request) {
+    if (!\Auth::user()->can('attach courses')) {
+      \Notify::warning('No tiene los permisos para asignar competencias',
+        'Información');
+      return redirect()->back();
+    }
+
+    if ($request->has('employee_id') && $request->has('course_id')) {
+      $filepath = null;
+      $course = Courses::find($request->course_id);
+
+      if ($request->hasFile('filepath')) {
+        $filepath = $request->filepath->store('docs/employees_courses',
+          'public');
+      }
+
+      foreach($request->employee_id as $empid) {
+        $emp = Employees::find($empid);
+
+        if ($emp->courses->pluck('id')->contains($request->course_id)) {
+          foreach($emp->courses as $course ) {
+            $newDate = new \DateTime($request->date);
+            $oldDate = new \DateTime($course->pivot->date);
+
+            if ($newDate > $oldDate && $course->id == $request->course_id) {
+              $emp->courses()->updateExistingPivot($course->id, [
+                'date' => $newDate->format('y-m-d'),
+                'filepath' => $filepath,
+                'carnet_print' => $request->carnet_print
+              ]);
+            }
+          }
+        } else {
+          $emp->courses()->attach($course, [
+            'date' => $request->date,
+            'filepath' => $filepath,
+            'carnet_print' => $request->carnet_print
+          ]);
+        }
+      }
+
+      \Notify::success('Asignación masiva completada', 'Información');
+      return redirect()->back();
+    } else {
+      \Notify::error('Faltan parametros', 'Información');
+      return redirect()->back();
+    }
+  }
+
+  /**
    * Remove course from employee
    */
   public function removeCourse($employee_id, $course_id) {

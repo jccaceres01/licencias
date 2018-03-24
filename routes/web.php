@@ -75,6 +75,9 @@ Route::get('employees/courses/remove/{employee_id}/{course_id}',
 Route::put('employees/courses/{employee_id}/{course_id}',
   'EmployeesController@updateEmployeesCourses')
   ->name('employees.courses.update');  // Save edit form for employee's courses
+Route::post('employees/courses/massive/add',
+  'EmployeesController@addCourseMassive')
+  ->name('employees.courses.massive.add'); // Route to add courses to multiples employees
 
 /**
  * Reports Routes
@@ -94,7 +97,7 @@ Route::get('report/employees/down', 'ReportsController@employeesDown')
   ->name('reports.employees.down'); // Get down employees report
 Route::get('reports/employees/licenses/state',
   'ReportsController@licensesState')->name('employees.licenses.state'); // Return employees' license state
-  
+
 /**
  * User's routes
  */

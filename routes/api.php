@@ -22,6 +22,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
  */
 Route::resource('equipmenttypes', 'Api\EquipmentTypesController');
 Route::resource('courses', 'Api\CoursesController');
+Route::resource('employees', 'Api\EmployeesController');
 
 
 /**

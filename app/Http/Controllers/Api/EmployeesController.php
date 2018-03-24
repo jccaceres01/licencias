@@ -4,9 +4,9 @@ namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Courses;
+use App\Employees;
 
-class CoursesController extends Controller
+class EmployeesController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,7 +15,7 @@ class CoursesController extends Controller
      */
     public function index()
     {
-      return Courses::orderBy('name')->get();
+      return Employees::orderBy('firstnames')->orderBy('lastnames')->get();
     }
 
     /**
@@ -25,7 +25,7 @@ class CoursesController extends Controller
      */
     public function create()
     {
-      
+        //
     }
 
     /**
@@ -36,14 +36,7 @@ class CoursesController extends Controller
      */
     public function store(Request $request)
     {
-      try {
-        return Courses::create($request->all());
-      } catch (\Exception $e) {
-        switch ($e->getCode()) {
-          case '23000':
-            return \Response::json('duplicate');
-        }
-      }
+        //
     }
 
     /**
@@ -54,7 +47,7 @@ class CoursesController extends Controller
      */
     public function show($id)
     {
-      return Courses::find($id);
+        //
     }
 
     /**
@@ -65,7 +58,7 @@ class CoursesController extends Controller
      */
     public function edit($id)
     {
-
+        //
     }
 
     /**
@@ -77,9 +70,7 @@ class CoursesController extends Controller
      */
     public function update(Request $request, $id)
     {
-      $equip = Courses::find($id);
-      $equip->update($request->all());
-      return \Response::json(true);
+        //
     }
 
     /**
@@ -90,14 +81,6 @@ class CoursesController extends Controller
      */
     public function destroy($id)
     {
-      try {
-        Courses::destroy($id);
-        return \Response::json(true);
-      } catch (\Exception $e) {
-        switch ($e->getCode()) {
-          case '23000':
-            return \Response::json('unique');
-        }
-      }
+        //
     }
 }
