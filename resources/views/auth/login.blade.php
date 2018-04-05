@@ -72,7 +72,7 @@
         <!-- /.col -->
       </div>
     </form>
-    <a href="{{ route('password.request') }}">Olvide mi contraseña</a><br>
+    <!-- <a href="{{ route('password.request') }}">Olvide mi contraseña</a><br> -->
   </div>
   <!-- /.login-box-body -->
 </div>
