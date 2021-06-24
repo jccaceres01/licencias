@@ -51,7 +51,17 @@
           <div class="box-header with-border">
             <h3 class="box-title"><strong>Informaci&oacute;n del Empleado</strong></h3>
             <div class="pull-right">
-              @can('view reports')<a href="{{ route('reports.employees.license', $employee->id)}}" target="_new" class="btn btn-default btn-xs" title="Imprimir Carnet de licencia" data-placement="top" data-toggle="tooltip"><i class="fa fa-id-card-o"></i></a>@endcan
+              @can('view reports')
+              <!-- <a href="{{ route('reports.preview', 'report_name=/reports/Licencias/idcard') }}" class="btn btn-default btn-xs" title="Imprimir Carnet de licencia" data-placement="top" data-toggle="tooltip"><i class="fa fa-id-card-o"></i></a> -->
+              <form action="{{ route('reports.preview') }}" class="inline form-inline" method="GET">
+                <!-- Report Unit -->
+                <input type="hidden" name="report" value="/reports/Licencias/idcard">
+                <!-- report Params -->
+                <input type="hidden" name="params[employee_id]" value="{{ $employee->id }}">
+                <input type="hidden" name="params[imgpath]" value="{{ config('reports.server_storage') }}">
+                <button type="" class="btn btn-default btn-xs" title="Imprimir Carnet de licencia" data-placement="top" data-toggle="tooltip"><i class="fa fa-id-card-o"></i></button>
+              </form>
+              @endcan
               @can('edit employees')
               <a href="{{ route('employees.edit', $employee->id) }}" class="btn btn-default btn-xs" data-toggle="tooltip" title="Editar" data-placement="top">
                 <i class="fa fa-pencil"></i>
@@ -495,7 +505,7 @@
           <div class="col-md-6">
             <select class="form-control" name="relation">
               <option value=""selected disabled>Relación</option>
-              @foreach(array_sort(App\Contacts::$relation) as $relation)
+              @foreach(array_sort(App\Models\Contacts::$relation) as $relation)
               @if($relation == old('relation'))
               <option value="{{ $relation}}" selected>{{ $relation }}</option>
               @else

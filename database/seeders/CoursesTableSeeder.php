@@ -1,7 +1,8 @@
 <?php
+namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Courses;
+use App\Models\Courses;
 use Faker\Factory as Faker;
 
 class CoursesTableSeeder extends Seeder

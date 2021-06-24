@@ -1,8 +1,9 @@
 <?php
+namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Contacts;
-use App\Employees;
+use App\Models\Contacts;
+use App\Models\Employees;
 use Faker\Factory as Faker;
 
 class ContactsTableSeeder extends Seeder

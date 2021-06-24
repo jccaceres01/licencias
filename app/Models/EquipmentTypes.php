@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -19,7 +19,7 @@ class EquipmentTypes extends Model
    */
   public function employees() {
     return $this->belongsToMany(
-      'App\EquipmentTypes',
+      'App\Models\EquipmentTypes',
       'employees_equipment_types',
       'employee_id',
       'equipment_type_id'

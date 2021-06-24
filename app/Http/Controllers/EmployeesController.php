@@ -8,11 +8,15 @@ use App\Http\Requests\Employees\EditEmployeesEquipmentRequest;
 use App\Http\Requests\Employees\EmployeesEquipmentRequest;
 use App\Http\Requests\Employees\EmployeesCoursesRequest;
 use App\Http\Requests\Employees\EditEmployeesCourseRequest;
-use App\Employees;
-use App\EquipmentTypes;
-use App\Courses;
-use App\Projects;
-use App\Groups;
+use App\Models\Employees;
+use App\Models\EquipmentTypes;
+use App\Models\Courses;
+use App\Models\Projects;
+use App\Models\Groups;
+use App\Models\MaEmpl;
+
+// Include Helpers
+use Illuminate\Support\Str;
 
 class EmployeesController extends Controller
 {
@@ -680,6 +684,71 @@ class EmployeesController extends Controller
           \Notify::error( $e->getMessage(), 'Error: '.$e->getCode());
           return redirect()->back();
       }
+    }
+  }
+
+  /**
+   * Map Employees from MaEmpl (PlanillaRD) to Employees 
+   * 
+   * For now this only work with MaEmpl with CodMER = 3(Activos) and CodSGE = 32 (Administrativos)
+   */
+  public function syncEmployees() {
+
+    try {
+      \DB::beginTransaction();
+
+      $maEmpl = MaEmpl::where('CodMER', 3)->where('CodSGE', 32)->get(); // Get employees from planillaRd
+      $employees = Employees::all(); // Get employees from licencias
+      $project = Projects::where('name', 'like', '%TCB%')->first(); // Get Project TCB only for
+      
+      // Fire all exists employees
+      foreach ($employees as $employee) {
+        $employee->status = 'cancelado';
+        $employee->save();
+      }
+
+      // Find, update or create if not found employees matching with planillaRD
+      foreach ($maEmpl as $planillaEmployee) {
+        if ($employees->contains('code', trim($planillaEmployee->CodMEm))) {
+          $emp = Employees::where('code', trim($planillaEmployee->CodMEm))->first();
+
+          $emp->firstnames = trim($planillaEmployee->Nombr1).' '.trim($planillaEmployee->Nombr2);
+          $emp->lastnames = trim($planillaEmployee->Apell1).' '.trim($planillaEmployee->Apell2);
+          $emp->identity_document = trim($planillaEmployee->Cedula);
+          $emp->birthdate = $planillaEmployee->FecNac;
+          $emp->hiredate = $planillaEmployee->FecIng;
+          $emp->project_id = $project->id;
+          $emp->status = 'activo';
+          $emp->save();
+        } else {
+          info('Employee with Code: '.$planillaEmployee->CodMEm.' Not Found in Employees and will be create');
+          Employees::create([
+            'code' => trim($planillaEmployee->CodMEm),
+            'firstnames' => trim($planillaEmployee->Nombr1).' '.trim($planillaEmployee->Nombr2),
+            'lastnames' => trim($planillaEmployee->Apell1).' '.trim($planillaEmployee->Apell2),
+            'identity_document' => $planillaEmployee->Cedula,
+            'birthdate' => $planillaEmployee->FecNac,
+            'hiredate' => $planillaEmployee->FecIng,
+            'project_id' => $project->id,
+            'status' => 'activo'
+          ]);
+        }
+      }
+      // Commit transaction
+      \DB::commit();
+
+      \Notify::success('Usuarios Sincronizados', 'Informaci&oacute;n');
+      return back();
+    } catch (\Exception $e) {
+      switch ($e->getCode()) {
+        default:
+          \Notify::error( $e->getMessage(), 'Error: '.$e->getCode());
+          info($e);
+          break;
+      }
+      // Rollback transaction on issue
+      \DB::rollBack();
+      return back();
     }
   }
 }

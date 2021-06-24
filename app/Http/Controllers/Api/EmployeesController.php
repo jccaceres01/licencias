@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Employees;
+use App\Models\Employees;
 
 class EmployeesController extends Controller
 {
@@ -15,7 +15,7 @@ class EmployeesController extends Controller
      */
     public function index()
     {
-      return Employees::orderBy('firstnames')->orderBy('lastnames')->get();
+        return Employees::orderBy('firstnames')->orderBy('lastnames')->get();
     }
 
     /**

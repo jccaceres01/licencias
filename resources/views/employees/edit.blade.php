@@ -84,7 +84,7 @@
                     {{ Form::label('employee_type', 'Tipo de Empleado *')}}
                     <select class="form-control" name="employee_type">
                       <option value="" disabled selected>Tipo de Empleado</option>
-                      @foreach(array_sort(App\Employees::$employeeType) as $employeeType)
+                      @foreach(array_sort(App\Models\Employees::$employeeType) as $employeeType)
                       @if($employeeType == $employee->employee_type)
                       <option value="{{ $employeeType }}" selected>{{ title_case($employeeType) }}</option>
                       @else
@@ -151,7 +151,7 @@
                   <!-- country_id -->
                   <div class="form-group">
                     {{ Form::label('country_id', 'Nacionalidad')}}
-                    {{ Form::select('country_id',  App\Countries::orderBy('name')->pluck('name', 'id'), old('country_id'), ['class' => 'form-control', 'placeholder' => 'Nacionalidad'])}}
+                    {{ Form::select('country_id',  App\Models\Countries::orderBy('name')->pluck('name', 'id'), old('country_id'), ['class' => 'form-control', 'placeholder' => 'Nacionalidad'])}}
                   </div>
                 </div>
                 <div class="col-md-3">
@@ -169,7 +169,7 @@
                     {{ Form::label('gender', 'Genero')}}
                     <select class="form-control" name="gender" placeholder="Género">
                       <option value="">Género</option>
-                      @foreach(App\Employees::$gender as $gender)
+                      @foreach(App\Models\Employees::$gender as $gender)
                       @if($employee->gender == $gender)
                       <option value="{{ $gender }}" selected="selected">{{ $gender}}</option>
                       @else
@@ -185,7 +185,7 @@
                     {{ Form::label('blood', 'Tipo de Sangre')}}
                     <select class="form-control" name="blood">
                       <option value="">Tipo de Sangre</option>
-                      @foreach(App\Employees::$blood as $blood)
+                      @foreach(App\Models\Employees::$blood as $blood)
                       @if ($employee->blood == $blood)
                       <option value="{{ $blood }}" selected="selected"> {{ $blood }}</option>
                       @else
@@ -253,7 +253,7 @@
                     {{ Form::label('drive_license_category', 'Categoria de Licencia')}}
                     <select class="form-control" name="drive_license_category">
                       <option value="" disabled selected>Categoria de Licencia</option>
-                      @foreach(App\Employees::$driveLicenseCategory as $category)
+                      @foreach(App\Models\Employees::$driveLicenseCategory as $category)
                       @if($category == $employee->drive_license_category)
                       <option value="{{ $category }}" selected="selected">{{ $category }}</option>
                       @else

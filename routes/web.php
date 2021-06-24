@@ -10,6 +10,7 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+use App\Http\Controllers\ReportsController;
 
 Route::get('/', function () {
     return redirect()->route('home');
@@ -78,25 +79,16 @@ Route::put('employees/courses/{employee_id}/{course_id}',
 Route::post('employees/courses/massive/add',
   'EmployeesController@addCourseMassive')
   ->name('employees.courses.massive.add'); // Route to add courses to multiples employees
+Route::get('employees/sync/planillard',
+  'EmployeesController@syncEmployees')
+  ->name('employees.sync.planillard'); // Sync employees with planillaRD, only "planilla administrativa"
 
 /**
  * Reports Routes
  */
 
 Route::get('reports/home', 'ReportsController@home')->name('reports.home'); // Home report route
-Route::get('reports/employees/license/{employee_id}',
-  'ReportsController@employeeLicence')->name('reports.employees.license'); // Carnets  routes
-Route::get('reports/employees/equipments',
-  'ReportsController@employeesEquipments')
-  ->name('reports.employees.equipments'); // Employee's equipments report
-Route::get('reports/employees/projects', 'ReportsController@employeesByProject')
-  ->name('reports.employees.project'); // Employees by projects report route
-Route::get('reports/employees/groups', 'ReportsController@employeesByGroup')
-  ->name('reports.employees.group'); // Employees by groups report route
-Route::get('report/employees/down', 'ReportsController@employeesDown')
-  ->name('reports.employees.down'); // Get down employees report
-Route::get('reports/employees/licenses/state',
-  'ReportsController@licensesState')->name('employees.licenses.state'); // Return employees' license state
+Route::get('reports/preview', [ReportsController::class, 'preview'])->name('reports.preview'); // Report Preview route
 
 /**
  * User's routes

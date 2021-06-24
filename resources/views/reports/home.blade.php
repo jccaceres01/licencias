@@ -32,7 +32,7 @@
             <ul>
               <li><a href="#" data-toggle="modal" data-target="#epd_employees_projects_dialog">Empleados por Proyectos</a></li>
               <li><a href="#" data-toggle="modal" data-target="#employees_groups_dialog">Empleados por Grupos</a></li>
-              <li><a href="{{ route('reports.employees.down') }}" target="_new">Empleados Cancelados</a></li>
+              <li><a href="#" target="_new">Empleados Cancelados</a></li>
               <li><a href="#" data-toggle="modal" data-target="#employees_equipments">Empleados / Equipos autorizados por grupo</a></li>
             </ul>
           </div>
@@ -40,7 +40,7 @@
             <h3>Licencias</h3>
             <hr>
             <ul>
-              <li><a href="{{ route('employees.licenses.state') }}" target="_new">Estado de licencias</a></li>
+              <li><a href="#" target="_new">Estado de licencias</a></li>
             </ul>
           </div>
           <div class="col-md-4">
@@ -69,7 +69,7 @@
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
         <h4 class="modal-title" id="">Empleados con equipos autorizados</h4>
       </div>
-      {{Form::open(['route' => 'reports.employees.equipments', 'method' => 'GET', 'target' => '_new'])}}
+      {{Form::open(['method' => 'GET', 'target' => '_new'])}}
       <div class="modal-body">
         <div class="form-group">
           <label for="">Proyecto</label>
@@ -98,7 +98,7 @@
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
         <h4 class="modal-title" id="">Listado de empleados por proyecto</h4>
       </div>
-      {{Form::open(['route' => 'reports.employees.project', 'method' => 'GET', 'target' => '_new'])}}
+      {{Form::open(['method' => 'GET', 'target' => '_new'])}}
       <div class="modal-body">
         <div class="form-group">
           <label for="">Proyecto</label>
@@ -122,7 +122,7 @@
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
         <h4 class="modal-title" id="">Listado de empleados por grupo</h4>
       </div>
-      {{Form::open(['route' => 'reports.employees.group', 'method' => 'GET', 'target' => '_new'])}}
+      {{Form::open(['method' => 'GET', 'target' => '_new'])}}
       <div class="modal-body">
         <div class="form-group">
           <label for="">Proyecto</label>

@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -16,7 +16,7 @@ class courses extends Model
    * Get Employees by a courses
    */
   public function employees() {
-    return $this->belongsToMany('App\Employees', 'employees_courses',
+    return $this->belongsToMany('App\Models\Employees', 'employees_courses',
       'employee_id', 'course_id')
       ->withPivot(['start_date', 'end_date'])
       ->withTimestamps();

@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.13.0.final using JasperReports Library version 6.13.0-46ada4d1be8f3c5985fd0b6146f3ed44caed6f05  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="idcard" pageWidth="153" pageHeight="243" whenNoDataType="NoPages" columnWidth="153" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="bf4c5e36-88c0-4142-83db-55f915bbe3b6">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Licencias Local"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="ireport.jasperserver.url" value="http://localhost:8080/jasperserver/"/>
+	<property name="ireport.jasperserver.user" value="jasperadmin"/>
+	<property name="ireport.jasperserver.report.resource" value="/reports/Licencias/idcard_files/main_jrxml"/>
+	<property name="ireport.jasperserver.reportUnit" value="/reports/Licencias/idcard"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<style name="roundBorder" radius="45" markup="styled"/>
+	<parameter name="employee_id" class="java.lang.String">
+		<defaultValueExpression><![CDATA[null]]></defaultValueExpression>
+	</parameter>
+	<parameter name="imgpath" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["http://localhost:8000/storage/"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select  
+	employees.id,
+	employees.code,
+	employees.firstnames,
+	employees.lastnames,
+	employees.imgpath,
+	projects.name as 'project_name'
+from 
+	employees
+	inner join projects on projects.id = employees.project_id
+where 
+	employees.id = $P{employee_id}]]>
+	</queryString>
+	<field name="id" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.label" value="id"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="employees"/>
+	</field>
+	<field name="code" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="code"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="employees"/>
+	</field>
+	<field name="firstnames" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="firstnames"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="employees"/>
+	</field>
+	<field name="lastnames" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="lastnames"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="employees"/>
+	</field>
+	<field name="imgpath" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="imgpath"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="employees"/>
+	</field>
+	<field name="project_name" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="project_name"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="projects"/>
+	</field>
+	<background>
+		<band height="243">
+			<image scaleImage="FillFrame" hAlign="Center" vAlign="Middle">
+				<reportElement x="0" y="0" width="153" height="243" uuid="bfbd5100-8da0-4454-a8d2-9524bde4c181"/>
+				<imageExpression><![CDATA["bg_carnet.jpg"]]></imageExpression>
+			</image>
+		</band>
+	</background>
+	<detail>
+		<band height="243">
+			<textField textAdjust="ScaleFont">
+				<reportElement mode="Transparent" x="0" y="210" width="153" height="10" forecolor="#FFFFFF" uuid="01d0ee58-187a-42bc-9326-bbf4ee2be753"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{firstnames} +" "+ $F{lastnames}]]></textFieldExpression>
+			</textField>
+			<image scaleImage="FillFrame" hAlign="Center" vAlign="Middle" onErrorType="Icon">
+				<reportElement style="roundBorder" x="31" y="110" width="90" height="80" uuid="0d97b0ed-4261-4c29-9e65-2b253cc7a720">
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				</reportElement>
+				<imageExpression><![CDATA[$P{imgpath}+$F{imgpath}]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement mode="Transparent" x="0" y="230" width="153" height="10" forecolor="#000000" uuid="9194c6dc-bdb7-44ba-8f70-bdb6ad284e80"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{code}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="90" width="153" height="20" uuid="7bc85fee-f36c-4d14-92e4-86afbbc7341f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{project_name}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

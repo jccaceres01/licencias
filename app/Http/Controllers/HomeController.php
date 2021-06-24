@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Charts\EmployeesByProjectChart;
-use App\Employees;
+use App\Models\Employees;
 
 class HomeController extends Controller
 {

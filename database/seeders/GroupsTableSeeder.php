@@ -1,9 +1,10 @@
 <?php
+namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Groups;
-use App\Projects;
-use App\Employees;
+use App\Models\Groups;
+use App\Models\Projects;
+use App\Models\Employees;
 
 class GroupsTableSeeder extends Seeder
 {

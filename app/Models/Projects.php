@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -23,14 +23,14 @@ class Projects extends Model
    * Get country of a project
    */
   public function country() {
-    return $this->hasOne('App\Countries', 'id', 'country_id');
+    return $this->hasOne('App\Models\Countries', 'id', 'country_id');
   }
 
   /**
    * Get projects' groups
    */
   public function groups() {
-    return $this->hasMany('App\Groups', 'project_id', 'id');
+    return $this->hasMany('App\Models\Groups', 'project_id', 'id');
   }
 
   /**
@@ -49,6 +49,6 @@ class Projects extends Model
    * Get General supervisor
    */
   public function generalSupervisor() {
-    return $this->hasOne('App\Employees', 'id', 'employee_id');
+    return $this->hasOne('App\Models\Employees', 'id', 'employee_id');
   }
 }

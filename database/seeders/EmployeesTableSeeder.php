@@ -1,10 +1,11 @@
 <?php
+namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Employees;
+use App\Models\Employees;
 use Faker\Factory as Faker;
-use App\Projects;
-use App\Countries;
+use App\Models\Projects;
+use App\Models\Countries;
 
 class EmployeesTableSeeder extends Seeder
 {
@@ -82,5 +83,36 @@ class EmployeesTableSeeder extends Seeder
             ->first()
         ]);
       }
+      // Test my employee from sync
+      Employees::create([
+        'code' => '10096',
+        'firstnames' => 'Julio Cesar',
+        'lastnames' => 'Caceres F.',
+        'nickname' => 'JC.',
+        'identity_document' => '11800134873',
+        'birthdate' => $faker->dateTimeBetween('-30 years', '-12 years'),
+        'hiredate' => $faker->dateTimeBetween('-12 years', '-1 years'),
+        'gender' => $gender[rand(0, 1)],
+        'blood' => $blood[rand(0, sizeof($blood)-1)],
+        'address' => $faker->address,
+        'email' => $faker->email,
+        'phonenumber' => $faker->phoneNumber(),
+        'cellphone' => $faker->phoneNumber(),
+        'position' => $faker->sentence(1),
+        'imgpath' => null,
+        'drive_license' => str_limit($faker->uuid, 12, ''),
+        'drive_license_category' => $driveLicenseCategory[rand(0,
+          sizeof($driveLicenseCategory)-1)],
+        'drive_license_start' => $faker->dateTimeBetween('-6 years',
+          '-4 years'),
+        'drive_license_end' => $faker->dateTimeBetween('-2 years',
+          '+3 years'),
+        'drive_license_restriction' => 'Ninguna',
+        'project_id' => Projects::where('name', 'like', 'tcb')->first()->id,
+        'status' => 'activo',
+        'employee_type' => $empType,
+        'country_id' => Countries::inRandomOrder()->take(1)->pluck('id')
+          ->first()
+      ]);
     }
 }

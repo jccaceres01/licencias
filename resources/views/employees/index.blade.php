@@ -17,7 +17,7 @@
   <!-- Default box -->
   <div class="box">
     <div class="box-header with-border">
-      <h3 class="box-title"><i class="fa fa-users"></i> Empleados <span class="badge">{{ App\Employees::activeAndStandBy()->count() }}</span></h3>
+      <h3 class="box-title"><i class="fa fa-users"></i> Empleados <span class="badge">{{ App\Models\Employees::activeAndStandBy()->count() }}</span></h3>
 
       <div class="box-tools pull-right">
         <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
@@ -28,6 +28,7 @@
             <i class="fa fa-wrench"></i></button>
           <ul class="dropdown-menu" role="menu">
             <li><a href="#" data-toggle="modal" data-target="#mass_courses_assignament"><i class="fa fa-certificate"></i> Asignacion masiva de Competencias</a></li>
+            <li><a href="{{ route('employees.sync.planillard') }} "><i class="fa fa-retweet"></i> Sincronizar empleados desde la planilla</a></li>
           </ul>
         </div>
         <button type="button" class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove">

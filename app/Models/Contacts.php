@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -38,6 +38,6 @@ class Contacts extends Model
    * Contacts belongsTo employee relationship
    */
   public function employee() {
-    return $this->belongsTo('App\Employees', 'employee_id', 'id');
+    return $this->belongsTo('App\Models\Employees', 'employee_id', 'id');
   }
 }

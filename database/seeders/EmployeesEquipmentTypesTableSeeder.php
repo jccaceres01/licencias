@@ -1,8 +1,9 @@
 <?php
+namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Employees;
-use App\EquipmentTypes;
+use App\Models\Employees;
+use App\Models\EquipmentTypes;
 
 class EmployeesEquipmentTypesTableSeeder extends Seeder
 {

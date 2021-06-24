@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -72,21 +72,21 @@ class Employees extends Model
    * Project foreign key
    */
   public function project() {
-    return $this->hasOne('App\Projects', 'id', 'project_id');
+    return $this->hasOne('App\Models\Projects', 'id', 'project_id');
   }
 
   /**
    * Shift foreign key
    */
   public function group() {
-    return $this->hasOne('App\Groups', 'id', 'group_id');
+    return $this->hasOne('App\Models\Groups', 'id', 'group_id');
   }
 
   /**
    * Nationality, countries foreign key
    */
   public function country() {
-    return $this->hasOne('App\Countries', 'id', 'country_id');
+    return $this->hasOne('App\Models\Countries', 'id', 'country_id');
   }
 
   /**
@@ -184,7 +184,7 @@ class Employees extends Model
    */
   public function equipmentTypes() {
     return $this->belongsToMany(
-      'App\EquipmentTypes',
+      'App\Models\EquipmentTypes',
       'employees_equipment_types',
       'employee_id',
       'equipment_type_id'
@@ -195,14 +195,14 @@ class Employees extends Model
    * Get contacts of employees relationship
    */
   public function contacts() {
-    return $this->hasMany('App\Contacts', 'employee_id', 'id');
+    return $this->hasMany('App\Models\Contacts', 'employee_id', 'id');
   }
 
   /**
    * Get Courses by a employee
    */
   public function courses() {
-    return $this->belongsToMany('App\Courses', 'employees_courses',
+    return $this->belongsToMany('App\Models\Courses', 'employees_courses',
       'employee_id', 'course_id')
         ->withPivot(['date', 'filepath', 'carnet_print'])
         ->withTimestamps();

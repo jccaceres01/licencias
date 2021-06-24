@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\GroupsRequest;
-use App\Groups;
-use App\Employees;
-use App\Projects;
+use App\Models\Groups;
+use App\Models\Employees;
+use App\Models\Projects;
 
 class GroupsController extends Controller
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -13,21 +13,21 @@ class Groups extends Model
    * Get supervisor (employee_id)
    */
   public function supervisor() {
-    return $this->hasOne('App\Employees', 'id', 'employee_id');
+    return $this->hasOne('App\Models\Employees', 'id', 'employee_id');
   }
 
   /**
    * Get employees in a group
    */
   public function employees() {
-    return $this->hasMany('App\Employees', 'id', 'employee_id');
+    return $this->hasMany('App\Models\Employees', 'id', 'employee_id');
   }
 
   /**
    * Get project of the turn
    */
   public function project() {
-    return $this->hasOne('App\Projects', 'id', 'project_id');
+    return $this->hasOne('App\Models\Projects', 'id', 'project_id');
   }
 
   /**

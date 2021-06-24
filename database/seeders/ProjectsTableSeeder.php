@@ -1,9 +1,10 @@
 <?php
+namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Faker\Factory as Faker;
-use App\Projects;
-use App\Countries;
+use App\Models\Projects;
+use App\Models\Countries;
 
 class ProjectsTableSeeder extends Seeder
 {
@@ -39,6 +40,16 @@ class ProjectsTableSeeder extends Seeder
         ],
         [
           'name' => 'CMD',
+          'address' => $faker->address,
+          'country_id' => $country->id,
+          'description' => $faker->sentence(rand(2, 5)),
+          'email' => 'info@socococr.com',
+          'latitude' => $faker->latitude,
+          'longitude' => $faker->longitude,
+          'altitude' => $faker->numberBetween(10, 20, 2)
+        ],
+        [
+          'name' => 'TCB',
           'address' => $faker->address,
           'country_id' => $country->id,
           'description' => $faker->sentence(rand(2, 5)),

@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\ProjectsRequest;
-use App\Projects;
-use App\Countries;
-use App\Employees;
+use App\Models\Projects;
+use App\Models\Countries;
+use App\Models\Employees;
 
 
 class ProjectsController extends Controller

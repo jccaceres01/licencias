@@ -5,28 +5,31 @@
     "license": "MIT",
     "type": "project",
     "require": {
-        "php": ">=5.6.4",
+        "php": ">=7.3.0",
         "consoletvs/charts": "6.*",
+        "facade/ignition": "^2.3.6",
+        "fruitcake/laravel-cors": "^2.0",
         "intervention/image": "^2.4",
         "jorgejavierleon/laravelpnotify": "~1.0",
-        "laravel/framework": "5.5.*",
-        "laravel/tinker": "~1.0",
-        "laravelcollective/html": "^5.4.0",
-        "lavela/phpjasper": "^2.0",
-        "spatie/laravel-permission": "^2.7"
+        "laravel/framework": "^8.0",
+        "laravel/helpers": "^1.4",
+        "laravel/tinker": "^2.0",
+        "laravel/ui": "^3.0",
+        "laravelcollective/html": "^6.2",
+        "nunomaduro/collision": "^5.0",
+        "spatie/laravel-permission": "^4.0",
+        "guzzlehttp/guzzle": "^7.0.1"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
         "mockery/mockery": "0.9.*",
-        "phpunit/phpunit": "~6.0"
+        "phpunit/phpunit": "^9.0"
     },
     "autoload": {
-        "classmap": [
-            "database/seeds",
-            "database/factories"
-        ],
         "psr-4": {
-            "App\\": "app/"
+            "App\\": "app/",
+            "Database\\Factories\\": "database/factories/",
+            "Database\\Seeders\\": "database/seeders/"
         }
     },
     "autoload-dev": {
@@ -42,12 +45,10 @@
             "php artisan key:generate"
         ],
         "post-install-cmd": [
-            "Illuminate\\Foundation\\ComposerScripts::postInstall",
-            "php artisan optimize"
+            "Illuminate\\Foundation\\ComposerScripts::postInstall"
         ],
         "post-update-cmd": [
-            "Illuminate\\Foundation\\ComposerScripts::postUpdate",
-            "php artisan optimize"
+            "Illuminate\\Foundation\\ComposerScripts::postUpdate"
         ]
     },
     "config": {
