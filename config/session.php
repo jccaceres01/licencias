@@ -174,7 +174,5 @@ return [
     |
     */
 
-    'http_only' => true,
-
-    'same_site' => env('SAMES_SITE_COOKIE', 'none')
+    'http_only' => true
 ];
