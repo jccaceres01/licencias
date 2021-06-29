@@ -38,7 +38,7 @@
     <p class="login-box-msg">Inicio de Sesi&oacute;n</p>
 
     <form action="{{ route('login') }}" method="POST">
-      {{ csrf_field() }}
+      @csrf
       <div class="form-group has-feedback">
         <input type="email" name="email" class="form-control" placeholder="Correo Electronico" value="{{ old('email') }}">
         <i class="fa fa-envelope form-control-feedback"></i>
