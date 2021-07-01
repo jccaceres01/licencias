@@ -55,7 +55,7 @@
               <!-- <a href="{{ route('reports.preview', 'report_name=/reports/Licencias/idcard') }}" class="btn btn-default btn-xs" title="Imprimir Carnet de licencia" data-placement="top" data-toggle="tooltip"><i class="fa fa-id-card-o"></i></a> -->
               <form action="{{ route('reports.preview') }}" class="inline form-inline" method="GET">
                 <!-- Report Unit -->
-                <input type="hidden" name="report" value="/reports/Licencias/idcard">
+                <input type="hidden" name="report" value="/reports/Licencias/idcard/idcard">
                 <!-- report Params -->
                 <input type="hidden" name="params[employee_id]" value="{{ $employee->id }}">
                 <input type="hidden" name="params[imgpath]" value="{{ config('reports.server_storage') }}">
