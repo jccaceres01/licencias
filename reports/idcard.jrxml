@@ -20,7 +20,7 @@
 		<parameterDescription><![CDATA[Employee ID]]></parameterDescription>
 		<defaultValueExpression><![CDATA[null]]></defaultValueExpression>
 	</parameter>
-	<parameter name="imgpath" class="java.lang.String" isForPrompting="false">
+	<parameter name="imgpathserverurl" class="java.lang.String">
 		<defaultValueExpression><![CDATA["http://localhost:8000/storage/"]]></defaultValueExpression>
 	</parameter>
 	<queryString>
@@ -82,7 +82,7 @@ where
 				<reportElement style="roundBorder" x="31" y="110" width="90" height="80" uuid="0d97b0ed-4261-4c29-9e65-2b253cc7a720">
 					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
 				</reportElement>
-				<imageExpression><![CDATA[$P{imgpath}+$F{imgpath}]]></imageExpression>
+				<imageExpression><![CDATA[$P{imgpathserverurl}+$F{imgpath}]]></imageExpression>
 			</image>
 			<textField>
 				<reportElement mode="Transparent" x="0" y="230" width="153" height="10" forecolor="#000000" uuid="9194c6dc-bdb7-44ba-8f70-bdb6ad284e80"/>

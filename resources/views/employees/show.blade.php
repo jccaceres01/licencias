@@ -58,7 +58,7 @@
                 <input type="hidden" name="report" value="/reports/Licencias/idcard/idcard">
                 <!-- report Params -->
                 <input type="hidden" name="params[employee_id]" value="{{ $employee->id }}">
-                <input type="hidden" name="params[imgpath]" value="{{ config('reports.server_storage') }}">
+                <input type="hidden" name="params[imgpathserverurl]" value="{{ config('reports.server_storage') }}">
                 <button type="" class="btn btn-default btn-xs" title="Imprimir Carnet de licencia" data-placement="top" data-toggle="tooltip"><i class="fa fa-id-card-o"></i></button>
               </form>
               @endcan
