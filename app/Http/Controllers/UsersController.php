@@ -256,8 +256,8 @@ class UsersController extends Controller
       $user = User::find($id);
 
       $rules = [
-        'password' => 'required|regex:/^.*(?=.{3,})(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[\d\X])(?=.*[!$#%]).*$/',
-        'repassword' => 'same:password|required'
+        'password' => ['required', "regex: /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/"],
+        'repassword' => ['same:password', 'required']
       ];
 
       $messages = [
