@@ -91,13 +91,6 @@ where
 				</textElement>
 				<textFieldExpression><![CDATA[$F{code}]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement x="0" y="90" width="153" height="20" uuid="7bc85fee-f36c-4d14-92e4-86afbbc7341f"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="10" isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{project_name}]]></textFieldExpression>
-			</textField>
 		</band>
 	</detail>
 </jasperReport>

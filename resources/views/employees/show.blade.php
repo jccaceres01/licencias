@@ -59,7 +59,15 @@
                 <!-- report Params -->
                 <input type="hidden" name="params[employee_id]" value="{{ $employee->id }}">
                 <input type="hidden" name="params[imgpathserverurl]" value="{{ config('reports.server_storage') }}">
-                <button type="" class="btn btn-default btn-xs" title="Imprimir Carnet de licencia" data-placement="top" data-toggle="tooltip"><i class="fa fa-id-card-o"></i></button>
+                <button type="" class="btn btn-default btn-xs" title="Imprimir Carnet Empleado" data-placement="top" data-toggle="tooltip"><i class="fa fa-id-card-o"></i></button>
+              </form>
+              <form action="{{ route('reports.preview') }}" class="inline form-inline" method="GET">
+                <!-- Report Unit -->
+                <input type="hidden" name="report" value="/reports/Licencias/idcardsub/idcardsub">
+                <!-- report Params -->
+                <input type="hidden" name="params[employee_id]" value="{{ $employee->id }}">
+                <input type="hidden" name="params[imgpathserverurl]" value="{{ config('reports.server_storage') }}">
+                <button type="" class="btn btn-default btn-xs" title="Imprimir Carnet Contratista" data-placement="top" data-toggle="tooltip"><i class="fa fa-id-card"></i></button>
               </form>
               @endcan
               @can('edit employees')
